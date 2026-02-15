@@ -20,6 +20,7 @@ import {
   unmarkPlayingAll,
   editDeselectAll,
   displayDeselectAll,
+  sendMedia,
 } from "./ui_grid_logic.js";
 import { keyRightArrow, keyLeftArrow, keyEnter } from "./keyboard_logic.js";
 
@@ -333,6 +334,15 @@ window.addEventListener("keydown", async (event) => {
         return;
       }
       emit("black_out");
+      const elements = document.querySelectorAll(".displaySelected"); // is_color
+      const element = elements[0];
+      const parent = element.parentElement;
+      if (parent.is_color) {
+        sendMedia(parent.src, true);
+      } else {
+        let path = await invoke("get_file_src", { fileName: parent.name });
+        sendMedia(path, false);
+      }
       break;
     case "Enter":
       event.preventDefault();

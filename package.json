@@ -12,6 +12,6 @@
   "dependencies": {
     "@tauri-apps/plugin-dialog": "^2.4.2",
     "@tauri-apps/plugin-fs": "^2.4.4",
-    "npm": "^11.7.0"
+    "npm": "^11.10.0"
   }
 }

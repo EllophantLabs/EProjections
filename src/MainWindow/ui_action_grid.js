@@ -136,13 +136,13 @@ export function addGridTemplates(n) {
 
       event.preventDefault();
       const color = event.dataTransfer.getData(
-        "application/color-screen-monkey"
+        "application/color-screen-monkey",
       );
       const id = event.dataTransfer.getData("application/id-screen-monkey");
       const name = event.dataTransfer.getData("application/x-screen-monkey");
       const src = event.dataTransfer.getData("application/src-screen-monkey");
       const imgSrc = event.dataTransfer.getData(
-        "application/imgSrc-screen-monkey"
+        "application/imgSrc-screen-monkey",
       );
 
       if (color) {
@@ -238,7 +238,7 @@ function addGridTemplateBefore(m_parent) {
     const name = event.dataTransfer.getData("application/x-screen-monkey");
     const src = event.dataTransfer.getData("application/src-screen-monkey");
     const imgSrc = event.dataTransfer.getData(
-      "application/imgSrc-screen-monkey"
+      "application/imgSrc-screen-monkey",
     );
 
     if (color) {
@@ -296,21 +296,21 @@ export function addMoveTemplate() {
       event.preventDefault();
 
       const color = event.dataTransfer.getData(
-        "application/color-screen-monkey"
+        "application/color-screen-monkey",
       );
 
       const targetId = event.dataTransfer.getData(
-        "application/id-screen-monkey"
+        "application/id-screen-monkey",
       );
 
       const targetName = event.dataTransfer.getData(
-        "application/x-screen-monkey"
+        "application/x-screen-monkey",
       );
       const targetSrc = event.dataTransfer.getData(
-        "application/src-screen-monkey"
+        "application/src-screen-monkey",
       );
       const imgSrc = event.dataTransfer.getData(
-        "application/imgSrc-screen-monkey"
+        "application/imgSrc-screen-monkey",
       );
 
       const newId = addGridTemplateBefore(parent);
