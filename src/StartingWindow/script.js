@@ -47,6 +47,9 @@ async function create_new_project(path) {
 }
 
 window.addEventListener("DOMContentLoaded", () => {
+  document.getElementById("closeBtn").addEventListener("click",()=>{
+    invoke("close_start_window");
+  })
   // load project
   document.getElementById("folderBtn").addEventListener("click", async () => {
     const result = await chooseFolder();
