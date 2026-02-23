@@ -284,6 +284,10 @@ window.addEventListener("DOMContentLoaded", () => {
     await invoke("close_sec_window");
   });
 
+  document.getElementById("projectFolderBtn").addEventListener("click",async()=>{
+    await invoke("open_project_folder");
+  });
+
   document
     .getElementById("visibilityToggle")
     .addEventListener("click", async (event) => {

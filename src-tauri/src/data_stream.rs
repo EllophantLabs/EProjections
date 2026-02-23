@@ -8,6 +8,7 @@ use std::{
     sync::OnceLock,
 };
 use tauri::State;
+use tauri_plugin_opener;
 
 pub const SAVE_FILE: &str = "saveFile.json";
 pub const MEDIA_FOLDER: &str = "Media";
@@ -177,4 +178,16 @@ pub async fn load_layout(state: State<'_, ProjectDir>) -> Result<Vec<Media>, Str
     let layout: Vec<Media> = serde_json::from_str(&json_data).map_err(|e| e.to_string())?;
 
     Ok(layout)
+}
+
+#[tauri::command]
+pub async fn open_project_folder(state: State<'_,ProjectDir>) -> Result<(),String>
+{
+    let project_dir = state.path.get().cloned().ok_or("Error")?;
+    let mut path = PathBuf::from(&project_dir);
+    path.push(MEDIA_FOLDER);
+
+    tauri_plugin_opener::open_path(&path, None::<String>).map_err(|e| e.to_string())?;
+
+    Ok(())
 }

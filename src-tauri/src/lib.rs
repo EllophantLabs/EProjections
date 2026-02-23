@@ -2,6 +2,7 @@ use tauri::{App, Manager};
 use tauri::{AppHandle, Emitter, WebviewUrl, WebviewWindowBuilder};
 
 mod data_stream;
+use crate::data_stream::open_project_folder;
 use crate::data_stream::create_new_project;
 use crate::data_stream::get_file_src;
 use crate::data_stream::get_media_path;
@@ -112,6 +113,7 @@ pub fn run() {
             show_sec_window,
             close_main_window,
             close_start_window,
+            open_project_folder
         ])
         .on_window_event(|window, event| {
             if let tauri::WindowEvent::CloseRequested { .. } = event {
