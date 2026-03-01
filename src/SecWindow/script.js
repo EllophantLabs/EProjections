@@ -108,6 +108,7 @@ function triggerSwap() {
   const video = newSlot.querySelector("video");
   if (video) {
     video.play().catch(() => {});
+    video.muted = false;
   }
 
   oldSlot.addEventListener(
