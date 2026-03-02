@@ -36,6 +36,7 @@ async function addAssetsToGridDisplay(name) {
   div.className = "grid-box";
   div.draggable = editToggle;
 
+
   const img = document.createElement("img");
   img.src = await createThumbnail(name);
   img.draggable = false;

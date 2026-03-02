@@ -16,7 +16,7 @@ export async function sendMedia(path, is_color) {
   }
 
   const isVideo =
-    path.toLowerCase().endsWith("mp4") || path.toLowerCase().endsWith("webm");
+    path.toLowerCase().endsWith("mp4") || path.toLowerCase().endsWith("webm") || path.toLowerCase().endsWith("wav") || path.toLowerCase().endsWith("mov");
 
   const assetUrl = convertFileSrc(path);
   await emit("preload_media", {
