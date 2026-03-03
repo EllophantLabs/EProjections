@@ -27,6 +27,7 @@ export function addAssetsToTemplate(assetName, assetSrc, imgSrc, element) {
     e.dataTransfer.setData("application/x-screen-monkey", assetName);
     e.dataTransfer.setData("application/src-screen-monkey", assetSrc);
     e.dataTransfer.setData("application/imgSrc-screen-monkey", imgSrc);
+    e.dataTransfer.setData("application/isVideo-screen-monkey",element.isVideo);
     e.dataTransfer.effectAllowed = "copy";
     setTimeout(() => {
       removeMoveTemplate();
@@ -144,6 +145,8 @@ export function addGridTemplates(n) {
       const imgSrc = event.dataTransfer.getData(
         "application/imgSrc-screen-monkey",
       );
+      const isVideo = (event.dataTransfer.getData("application/isVideo-screen-monkey") === "true"); //! type check boolean!
+      const isLooped = (event.dataTransfer.getData("application/isLooped-screen-monkey") == "true");
 
       if (color) {
         element.src = color;
@@ -164,6 +167,8 @@ export function addGridTemplates(n) {
       element.name = name;
       element.src = src;
       element.imgSrc = imgSrc;
+      element.isVideo = isVideo;
+      element.isLooped = isLooped;
 
       if (!name || name.trim() === "") {
         return;
@@ -240,6 +245,9 @@ function addGridTemplateBefore(m_parent) {
     const imgSrc = event.dataTransfer.getData(
       "application/imgSrc-screen-monkey",
     );
+    const isVideo = (event.dataTransfer.getData("application/isVideo-screen-monkey") === "true"); //! type check boolean!
+    const isLooped = (event.dataTransfer.getData("application/isLooped-screen-monkey") === "true");
+
 
     if (color) {
       element.src = color;
@@ -260,6 +268,8 @@ function addGridTemplateBefore(m_parent) {
     element.name = name;
     element.src = src;
     element.imgSrc = imgSrc;
+    element.isVideo = isVideo;
+    element.isLooped = isLooped;
 
     if (!name || name.trim() === "") {
       return;

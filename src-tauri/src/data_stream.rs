@@ -20,6 +20,8 @@ pub struct Media {
     img_src: String,
     is_color: bool,
     is_empty: bool,
+    is_video: bool,
+    is_looped: bool,
 }
 
 #[derive(Serialize, Deserialize)]
@@ -171,7 +173,7 @@ pub async fn load_layout(state: State<'_, ProjectDir>) -> Result<Vec<Media>, Str
     // check if json-file was save empty
     let v: serde_json::Value = serde_json::from_str(&json_data).map_err(|e| e.to_string())?;
     if v.is_object() && v.get("save_empty").is_some(){
-        let obj = Media{url: "".to_string(),name: "".to_string(), img_src: "".to_string(),is_color: false, is_empty: false};
+        let obj = Media{url: "".to_string(),name: "".to_string(), img_src: "".to_string(),is_color: false, is_empty: false, is_video: false, is_looped: false};
         return Ok(vec![obj]);
     }
 

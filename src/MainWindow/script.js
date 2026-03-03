@@ -21,6 +21,7 @@ import {
   editDeselectAll,
   displayDeselectAll,
   sendMedia,
+  updateReloadBtn,
 } from "./ui_grid_logic.js";
 import { keyRightArrow, keyLeftArrow, keyEnter } from "./keyboard_logic.js";
 
@@ -36,10 +37,15 @@ async function addAssetsToGridDisplay(name) {
   div.className = "grid-box";
   div.draggable = editToggle;
 
-
   const img = document.createElement("img");
   img.src = await createThumbnail(name);
   img.draggable = false;
+
+  img.isVideo =
+    name.toLowerCase().endsWith("mp4") ||
+    name.toLowerCase().endsWith("webm") ||
+    name.toLowerCase().endsWith("wav") ||
+    name.toLowerCase().endsWith("mov");
 
   div.addEventListener("dragstart", (e) => {
     if (editToggle) {
@@ -48,6 +54,8 @@ async function addAssetsToGridDisplay(name) {
     }
     e.dataTransfer.setData("application/x-screen-monkey", name);
     e.dataTransfer.setData("application/src-screen-monkey", name);
+    e.dataTransfer.setData("application/isVideo-screen-monkey", img.isVideo);
+    e.dataTransfer.setData("application/isLooped-screen-monkey",false);
     e.dataTransfer.setData("application/imgSrc-screen-monkey", img.src);
     e.dataTransfer.effectAllowed = "copy";
   });
@@ -285,9 +293,11 @@ window.addEventListener("DOMContentLoaded", () => {
     await invoke("close_sec_window");
   });
 
-  document.getElementById("projectFolderBtn").addEventListener("click",async()=>{
-    await invoke("open_project_folder");
-  });
+  document
+    .getElementById("projectFolderBtn")
+    .addEventListener("click", async () => {
+      await invoke("open_project_folder");
+    });
 
   document
     .getElementById("visibilityToggle")
@@ -317,7 +327,7 @@ window.addEventListener("DOMContentLoaded", () => {
 window.addEventListener("contextmenu", (e) => e.preventDefault());
 
 window.addEventListener("keydown", async (event) => {
-  event.preventDefault();
+  // event.preventDefault();
   if (event.repeat) {
     return;
   }
@@ -326,10 +336,12 @@ window.addEventListener("keydown", async (event) => {
     case "ArrowRight":
       event.preventDefault();
       keyRightArrow();
+      updateReloadBtn();
       break;
     case "ArrowLeft":
       event.preventDefault();
       keyLeftArrow();
+      updateReloadBtn();
       break;
     case " ":
       event.preventDefault();

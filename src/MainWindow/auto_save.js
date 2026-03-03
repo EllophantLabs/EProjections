@@ -31,10 +31,14 @@ export async function auto_save() {
     let src = "x";
     let imgSrc = "x";
     let is_color = false;
+    let is_video = false;
+    let is_looped = false;
 
     if (!is_empty) {
       is_color = element.is_color;
       src = element.src;
+      is_video = element.isVideo;
+      is_looped = element.isLooped;
       if (!is_color) {
         is_color = false;
         name = element.name;
@@ -48,6 +52,8 @@ export async function auto_save() {
       img_src: imgSrc,
       is_color: is_color,
       is_empty: is_empty,
+      is_video: is_video,
+      is_looped: is_looped,
     };
 
     saveData.push(struct);
@@ -73,7 +79,7 @@ export async function load_save() {
   let id = 1;
 
   for (const array of result) {
-    let { url, name, img_src, is_color, is_empty } = array;
+    let { url, name, img_src, is_color, is_empty, is_video, is_looped } = array;
     if (is_empty) {
       id++;
       continue;
@@ -92,16 +98,16 @@ export async function load_save() {
         error = true;
         url = "missing url";
       }
+      element.isVideo = is_video;
+      element.isLooped = is_looped;
       addAssetsToTemplate(name, url, img_src, element);
     }
     id++;
   }
 
-  if(error)
-  {
+  if (error) {
     alert("Dateien wurden nicht gefunden!");
   }
-
 }
 
 async function isSrcValid(src) {

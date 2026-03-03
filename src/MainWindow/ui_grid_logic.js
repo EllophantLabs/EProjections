@@ -16,7 +16,10 @@ export async function sendMedia(path, is_color) {
   }
 
   const isVideo =
-    path.toLowerCase().endsWith("mp4") || path.toLowerCase().endsWith("webm") || path.toLowerCase().endsWith("wav") || path.toLowerCase().endsWith("mov");
+    path.toLowerCase().endsWith("mp4") ||
+    path.toLowerCase().endsWith("webm") ||
+    path.toLowerCase().endsWith("wav") ||
+    path.toLowerCase().endsWith("mov");
 
   const assetUrl = convertFileSrc(path);
   await emit("preload_media", {
@@ -110,6 +113,8 @@ export async function handleMediaClick(event, name) {
     if (!isDisplaySelected(element)) {
       displayDeselectAll();
       displaySelect(element);
+      updateReloadBtn();
+
       // preload media
       let path = await invoke("get_file_src", { fileName: name });
       sendMedia(path, false);
@@ -118,6 +123,7 @@ export async function handleMediaClick(event, name) {
 
     if (isDisplaySelected(element) && !isPlaying(element)) {
       displayDeselect(element);
+      updateReloadBtn();
       unmarkPlayingAll();
       markPlaying(element);
       // trigger element playing
@@ -131,6 +137,7 @@ export async function handleMediaClick(event, name) {
     }
     return;
   }
+  updateReloadBtn();
 }
 
 export function handleColorClick(event, color) {
@@ -149,6 +156,7 @@ export function handleColorClick(event, color) {
     if (!isDisplaySelected(element)) {
       displayDeselectAll();
       displaySelect(element);
+      updateReloadBtn();
       // preload media
       sendMedia(color, true);
       return;
@@ -156,6 +164,7 @@ export function handleColorClick(event, color) {
 
     if (isDisplaySelected(element) && !isPlaying(element)) {
       displayDeselect(element);
+      updateReloadBtn();
       unmarkPlayingAll();
       markPlaying(element);
       // trigger element playing
@@ -169,6 +178,7 @@ export function handleColorClick(event, color) {
     }
     return;
   }
+  updateReloadBtn();
 }
 
 export function selectionModeChange() {
@@ -245,4 +255,16 @@ export function playingElement(element) {
     emit("trigger_swap_cut");
     return;
   }
+}
+
+export function updateReloadBtn() {
+  const elements = document.querySelectorAll(".displaySelected");
+  const element = elements[0];
+
+  if(!element)
+  {
+    return;
+  }
+  
+  console.log(element.parentElement.isVideo);
 }
