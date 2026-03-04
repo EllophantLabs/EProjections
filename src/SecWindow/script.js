@@ -28,7 +28,7 @@ listen("preload_media", (event) => {
   cue[2] = event.payload.isColor;
 
   // else
-  const { url, isVideo, isColor } = event.payload;
+  const { url, isVideo, isColor, isLooped } = event.payload;
   const bufferSlot = document.querySelector(".media-slot:not(.active)");
   bufferSlot.innerHTML = "";
 
@@ -39,6 +39,7 @@ listen("preload_media", (event) => {
     video.src = url;
     video.muted = true;
     video.preload = "auto";
+    video.loop = isLooped;
 
     bufferSlot.appendChild(video); // create video to display to
   } else if (isColor) {

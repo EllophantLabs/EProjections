@@ -5,7 +5,7 @@ const { convertFileSrc } = window.__TAURI__.core;
 const { open } = window.__TAURI__.dialog;
 const { emit } = window.__TAURI__.event;
 
-export async function sendMedia(path, is_color) {
+export async function sendMedia(path, is_color, element) {
   if (is_color) {
     await emit("preload_media", {
       url: path, // color
@@ -21,11 +21,19 @@ export async function sendMedia(path, is_color) {
     path.toLowerCase().endsWith("wav") ||
     path.toLowerCase().endsWith("mov");
 
+  let isLooped = false;
+
+  if(isVideo)
+  {
+    isLooped = element.parentElement.isLooped;
+  }
+
   const assetUrl = convertFileSrc(path);
   await emit("preload_media", {
     url: assetUrl,
     isVideo: isVideo,
     isColor: false,
+    isLooped: isLooped
   });
 }
 
@@ -117,7 +125,7 @@ export async function handleMediaClick(event, name) {
 
       // preload media
       let path = await invoke("get_file_src", { fileName: name });
-      sendMedia(path, false);
+      sendMedia(path, false, element);
       return;
     }
 
@@ -158,7 +166,7 @@ export function handleColorClick(event, color) {
       displaySelect(element);
       updateReloadBtn();
       // preload media
-      sendMedia(color, true);
+      sendMedia(color, true, element);
       return;
     }
 
@@ -226,12 +234,12 @@ export async function displaySelectMedia(element) {
   displaySelect(element.firstChild);
   // preload media
   if (element.is_color) {
-    sendMedia(element.src, true);
+    sendMedia(element.src, true, element);
     return;
   }
 
   let path = await invoke("get_file_src", { fileName: element.src });
-  sendMedia(path, false);
+  sendMedia(path, false, element);
 }
 
 export function playingElement(element) {
