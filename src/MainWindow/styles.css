@@ -102,6 +102,12 @@ html {
   box-sizing: border-box;
 }
 
+.hidden-looped-btn {
+  display: none;
+  width: 0;
+  height: 0;
+}
+
 .setting-btns {
   color: var(--color-text);
   background-color: var(--color-background-contrast);

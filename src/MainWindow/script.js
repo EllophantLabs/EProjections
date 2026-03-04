@@ -22,6 +22,7 @@ import {
   displayDeselectAll,
   sendMedia,
   updateReloadBtn,
+  pubIsLooped,
 } from "./ui_grid_logic.js";
 import { keyRightArrow, keyLeftArrow, keyEnter } from "./keyboard_logic.js";
 
@@ -29,6 +30,7 @@ export let editToggle = false;
 let assetToggle = true;
 export let transitionToggle = true;
 let visibilityToggle = true;
+export let pubLoopToggle = false;
 
 // add assets to left "display" grid
 async function addAssetsToGridDisplay(name) {
@@ -183,6 +185,27 @@ function assetToggleFn() {
   }
 }
 
+function isLoopedToggleFn(event) {
+  const element = document.querySelectorAll(".displaySelected")[0];
+  const parent = element.parentElement;
+
+  const btn = event.currentTarget;
+  parent.isLooped = !parent.isLooped;
+
+  if(parent.isLooped)
+  {
+    btn.classList.add("is-active");
+    pubLoopToggle = true;
+
+    auto_save();
+    return;
+  }
+
+  btn.classList.remove("is-active");
+  pubLoopToggle = false;
+  auto_save();
+}
+
 //* Event-Listener
 window.addEventListener("DOMContentLoaded", () => {
   document.getElementById("launchBtn").addEventListener("click", async (e) => {
@@ -292,6 +315,10 @@ window.addEventListener("DOMContentLoaded", () => {
   document.getElementById("endBtn").addEventListener("click", async () => {
     await invoke("close_sec_window");
   });
+
+  document.getElementById("loopBtn").addEventListener("click",(event)=>{
+    isLoopedToggleFn(event);
+  })
 
   document
     .getElementById("projectFolderBtn")

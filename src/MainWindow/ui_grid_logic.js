@@ -257,14 +257,35 @@ export function playingElement(element) {
   }
 }
 
+export let pubIsLooped = false;
+
 export function updateReloadBtn() {
   const elements = document.querySelectorAll(".displaySelected");
   const element = elements[0];
+  const btn = document.getElementById("loopBtn");
 
   if(!element)
   {
+    btn.classList.add("hidden-looped-btn");
     return;
   }
   
-  console.log(element.parentElement.isVideo);
+  if(!element.parentElement.isVideo)
+  {
+    btn.classList.add("hidden-looped-btn");
+    return;
+  }
+
+  btn.classList.remove("hidden-looped-btn");
+
+  pubIsLooped = element.parentElement.isLooped;
+
+  
+  if(pubIsLooped)
+  {
+    btn.classList.add("is-active");
+    return;
+  }
+
+  btn.classList.remove("is-active");
 }
