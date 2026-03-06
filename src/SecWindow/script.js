@@ -3,11 +3,20 @@ const { listen } = window.__TAURI__.event;
 
 import { transitionToggle } from "../MainWindow/script.js";
 
+const audioCtx = new AudioContext();
 const appWindow = getCurrentWebviewWindow();
 const cue = {};
 let cueIsValid = false;
 let isSwapping = false;
 let triedLoading = false;
+
+const fadeDurationMS = 10000;
+
+const audioSources = {};
+const gainNodes = [audioCtx.createGain(), audioCtx.createGain()];
+gainNodes[0].connect(audioCtx.destination);
+gainNodes[1].connect(audioCtx.destination);
+let audioSourceCounter = 0;
 
 //* listen for emit-signals
 //* loading and preloading
@@ -40,6 +49,14 @@ listen("preload_media", (event) => {
     video.muted = true;
     video.preload = "auto";
     video.loop = isLooped;
+    video.crossOrigin = "anonymous";
+
+    console.log("video counter added!");
+    video.counter = audioSourceCounter;
+    audioSourceCounter = audioSourceCounter == 0 ? 1 : 0;
+
+    audioSources[video.counter] = audioCtx.createMediaElementSource(video);
+    audioSources[video.counter].connect(gainNodes[video.counter]);
 
     bufferSlot.appendChild(video); // create video to display to
   } else if (isColor) {
@@ -106,23 +123,46 @@ function triggerSwap() {
   oldSlot.classList.remove("active");
   newSlot.classList.add("active");
 
+  const oldVideo = oldSlot.querySelector("video");
+  if (oldVideo) {
+    const fadeSeconds = Number((fadeDurationMS / 1000).toFixed(2));
+    const currentTime = audioCtx.currentTime;
+    gainNodes[oldVideo.counter].gain.setValueAtTime(1, currentTime);
+    gainNodes[oldVideo.counter].gain.linearRampToValueAtTime(
+      0,
+      currentTime + fadeSeconds,
+    );
+  }
+
   const video = newSlot.querySelector("video");
   if (video) {
     video.play().catch(() => {});
+    const currentTime = audioCtx.currentTime;
+    const fadeSeconds = Number((fadeDurationMS / 1000).toFixed(2));
+    gainNodes[video.counter].gain.setValueAtTime(0, currentTime);
     video.muted = false;
+    gainNodes[video.counter].gain.linearRampToValueAtTime(
+      1,
+      currentTime + fadeSeconds,
+    );
   }
 
   oldSlot.addEventListener(
     // when transition finished -> clear html + is there new cue?
     "transitionend",
     () => {
+      if (oldVideo) {
+        oldVideo.pause();
+        audioSources[oldVideo.counter].disconnect();
+        gainNodes[oldVideo.counter].disconnect();
+      }
       oldSlot.innerHTML = "";
       isSwapping = false;
       if (cueIsValid) {
         preloadCue();
       }
     },
-    { once: true }
+    { once: true },
   );
 }
 
@@ -170,6 +210,15 @@ function preloadCue() {
     video.src = url;
     video.muted = true;
     video.preload = "auto";
+    video.crossOrigin = "anonymous";
+
+    console.log("preload video via cue!");
+
+    video.counter = audioSourceCounter;
+    audioSourceCounter = audioSourceCounter == 0 ? 1 : 0;
+
+    audioSources[video.counter] = audioCtx.createMediaElementSource(video);
+    audioSources[video.counter].connect(gainNodes[video.counter]);
 
     video.onloadeddata = () => {
       bufferSlot.innerHTML = "";
@@ -216,15 +265,13 @@ function checkAndSwap() {
   }
 }
 
-window.addEventListener("DOMContentLoaded", add_eventListener);
-
 window.addEventListener("contextmenu", (e) => e.preventDefault());
 
-function add_eventListener() {
-  window.addEventListener("keydown", async (event) => {
-    event.preventDefault();
-    if (event.key == "Escape") {
+window.addEventListener("keydown", async (event) => {
+  // event.preventDefault();
+  switch (event.key) {
+    case "Escape":
       await appWindow.close();
-    }
-  });
-}
+      break;
+  }
+});
