@@ -147,23 +147,18 @@ function triggerSwap() {
     );
   }
 
-  oldSlot.addEventListener(
-    // when transition finished -> clear html + is there new cue?
-    "transitionend",
-    () => {
-      if (oldVideo) {
-        oldVideo.pause();
-        audioSources[oldVideo.counter].disconnect();
-        gainNodes[oldVideo.counter].disconnect();
-      }
-      oldSlot.innerHTML = "";
-      isSwapping = false;
-      if (cueIsValid) {
-        preloadCue();
-      }
-    },
-    { once: true },
-  );
+  setTimeout(() => {
+    if (oldVideo) {
+      oldVideo.pause();
+      audioSources[oldVideo.counter].disconnect();
+      gainNodes[oldVideo.counter].disconnect();
+    }
+    oldSlot.innerHTML = "";
+    isSwapping = false;
+    if (cueIsValid) {
+      preloadCue();
+    }
+  }, 10050);
 }
 
 function triggerSwapCut() {
