@@ -10,7 +10,7 @@ let cueIsValid = false;
 let isSwapping = false;
 let triedLoading = false;
 
-const fadeDurationMS = 10000;
+const fadeDurationMS = 1000;
 
 const audioSources = {};
 const gainNodes = [audioCtx.createGain(), audioCtx.createGain()];
@@ -28,6 +28,7 @@ listen("preload_media", (event) => {
     cue[0] = event.payload.url;
     cue[1] = event.payload.isVideo;
     cue[2] = event.payload.isColor;
+    cue[3] = event.payload.isLooped;
     cueIsValid = true;
     return;
   }
@@ -35,6 +36,7 @@ listen("preload_media", (event) => {
   cue[0] = event.payload.url;
   cue[1] = event.payload.isVideo;
   cue[2] = event.payload.isColor;
+  cue[3] = event.payload.isLooped;
 
   // else
   const { url, isVideo, isColor, isLooped } = event.payload;
@@ -51,7 +53,12 @@ listen("preload_media", (event) => {
     video.loop = isLooped;
     video.crossOrigin = "anonymous";
 
-    console.log("video counter added!");
+    console.log(
+      "video counter added! video.loop: " +
+        video.loop +
+        " isLooped: " +
+        isLooped,
+    );
     video.counter = audioSourceCounter;
     audioSourceCounter = audioSourceCounter == 0 ? 1 : 0;
 
@@ -85,6 +92,13 @@ listen("trigger_swap_cut", () => {
 
 listen("black_out", () => {
   const activeSlot = document.querySelector(".media-slot.active");
+  const activeVideo = activeSlot.querySelector("video");
+  if (activeVideo) {
+    const currentTime = audioCtx.currentTime;
+    gainNodes[activeVideo.counter].gain.setValueAtTime(0, currentTime);
+    activeVideo.pause();
+    audioSources[activeVideo.counter].disconnect();
+  }
   activeSlot.innerHTML = "";
 
   const div = document.createElement("div");
@@ -151,14 +165,13 @@ function triggerSwap() {
     if (oldVideo) {
       oldVideo.pause();
       audioSources[oldVideo.counter].disconnect();
-      gainNodes[oldVideo.counter].disconnect();
     }
     oldSlot.innerHTML = "";
     isSwapping = false;
     if (cueIsValid) {
       preloadCue();
     }
-  }, 10050);
+  }, 1000);
 }
 
 function triggerSwapCut() {
@@ -170,9 +183,20 @@ function triggerSwapCut() {
   newSlot.classList.add("active");
 
   const video = newSlot.querySelector("video");
+  const oldVideo = oldSlot.querySelector("video");
+
+  if (oldVideo) {
+    const currentTime = audioCtx.currentTime;
+    gainNodes[oldVideo.counter].gain.setValueAtTime(0, currentTime);
+    oldVideo.pause();
+    audioSources[oldVideo.counter].disconnect();
+  }
 
   if (video) {
     video.play().catch(() => {});
+    const currentTime = audioCtx.currentTime;
+    gainNodes[video.counter].gain.setValueAtTime(1, currentTime);
+    video.muted = false;
   }
 
   oldSlot.classList.remove("active");
@@ -198,6 +222,7 @@ function preloadCue() {
   const url = cue[0];
   const isVideo = cue[1];
   const isColor = cue[2];
+  const isLooped = cue[3];
   cueIsValid = false;
 
   if (isVideo) {
@@ -206,6 +231,7 @@ function preloadCue() {
     video.muted = true;
     video.preload = "auto";
     video.crossOrigin = "anonymous";
+    video.loop = isLooped;
 
     console.log("preload video via cue!");
 
@@ -263,7 +289,7 @@ function checkAndSwap() {
 window.addEventListener("contextmenu", (e) => e.preventDefault());
 
 window.addEventListener("keydown", async (event) => {
-  // event.preventDefault();
+  event.preventDefault();
   switch (event.key) {
     case "Escape":
       await appWindow.close();
