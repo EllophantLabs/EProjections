@@ -69,7 +69,6 @@ async fn hide_sec_window(app: AppHandle) {
 async fn show_sec_window(app: AppHandle) {
     if let Some(window) = app.get_webview_window("second-window") {
         window.show().unwrap();
-        window.open_devtools();
     }
 }
 
