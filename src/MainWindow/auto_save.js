@@ -58,6 +58,8 @@ export async function auto_save() {
 
     saveData.push(struct);
   }
+  console.log("Autosave frontend!");
+  console.log(saveData);
   invoke("save_layout", { layout: saveData });
 }
 

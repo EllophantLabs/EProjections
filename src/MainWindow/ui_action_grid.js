@@ -6,7 +6,12 @@ let numberOfTemplates = 0;
 const maxNumberOfTemplates = 200;
 export let layout = []; // id starts with 1->...
 
-export function addAssetsToTemplate(assetName, assetSrc, imgSrc, element) {
+export function addAssetsToTemplate(
+  assetName,
+  assetSrc,
+  imgSrc,
+  element
+) {
   const div = document.createElement("div");
   div.className = "grid-box-content";
   div.draggable = editToggle;
@@ -14,6 +19,9 @@ export function addAssetsToTemplate(assetName, assetSrc, imgSrc, element) {
   const img = document.createElement("img");
   img.src = imgSrc;
   img.draggable = false;
+
+  const isVideo = element.isVideo;
+  const isLooped = element.isLooped;
 
   div.addEventListener("click", (event) => {
     handleMediaClick(event, assetName);
@@ -27,7 +35,14 @@ export function addAssetsToTemplate(assetName, assetSrc, imgSrc, element) {
     e.dataTransfer.setData("application/x-screen-monkey", assetName);
     e.dataTransfer.setData("application/src-screen-monkey", assetSrc);
     e.dataTransfer.setData("application/imgSrc-screen-monkey", imgSrc);
-    e.dataTransfer.setData("application/isVideo-screen-monkey",element.isVideo);
+    e.dataTransfer.setData(
+      "application/isVideo-screen-monkey",
+      element.isVideo,
+    );
+    e.dataTransfer.setData(
+      "application/isLooped-screen-monkey",
+      element.isLooped,
+    );
     e.dataTransfer.effectAllowed = "copy";
     setTimeout(() => {
       removeMoveTemplate();
@@ -49,6 +64,8 @@ export function addAssetsToTemplate(assetName, assetSrc, imgSrc, element) {
   element.name = assetName;
   element.src = assetSrc;
   element.imgSrc = imgSrc;
+  element.isVideo = isVideo;
+  element.isLooped = isLooped;
 }
 
 export function addColorToTemplate(color, element) {
@@ -145,8 +162,12 @@ export function addGridTemplates(n) {
       const imgSrc = event.dataTransfer.getData(
         "application/imgSrc-screen-monkey",
       );
-      const isVideo = (event.dataTransfer.getData("application/isVideo-screen-monkey") === "true"); //! type check boolean!
-      const isLooped = (event.dataTransfer.getData("application/isLooped-screen-monkey") == "true");
+      const isVideo =
+        event.dataTransfer.getData("application/isVideo-screen-monkey") ===
+        "true"; //! type check boolean!
+      const isLooped =
+        event.dataTransfer.getData("application/isLooped-screen-monkey") ==
+        "true";
 
       if (color) {
         element.src = color;
@@ -245,9 +266,12 @@ function addGridTemplateBefore(m_parent) {
     const imgSrc = event.dataTransfer.getData(
       "application/imgSrc-screen-monkey",
     );
-    const isVideo = (event.dataTransfer.getData("application/isVideo-screen-monkey") === "true"); //! type check boolean!
-    const isLooped = (event.dataTransfer.getData("application/isLooped-screen-monkey") === "true");
-
+    const isVideo =
+      event.dataTransfer.getData("application/isVideo-screen-monkey") ===
+      "true"; //! type check boolean!
+    const isLooped =
+      event.dataTransfer.getData("application/isLooped-screen-monkey") ===
+      "true";
 
     if (color) {
       element.src = color;
@@ -322,9 +346,20 @@ export function addMoveTemplate() {
       const imgSrc = event.dataTransfer.getData(
         "application/imgSrc-screen-monkey",
       );
+      const isVideo =
+        event.dataTransfer.getData("application/isVideo-screen-monkey") ===
+        "true"; //! type check boolean!
+      const isLooped =
+        event.dataTransfer.getData("application/isLooped-screen-monkey") ===
+        "true";
+      console.log("Dragstart: isVIdeo: " + isVideo + " isLooped: " + isLooped);
 
+      
       const newId = addGridTemplateBefore(parent);
       const newTemplate = document.getElementById(newId);
+      
+      newTemplate.isVideo = isVideo;
+      newTemplate.isLooped = isLooped;
 
       if (targetId) {
         document.getElementById(targetId).remove();
@@ -342,6 +377,7 @@ export function addMoveTemplate() {
       }
 
       addAssetsToTemplate(targetName, targetSrc, imgSrc, newTemplate);
+      auto_save();
 
       if (editToggle && targetId) {
         document.getElementById("parent-" + targetId).remove();
