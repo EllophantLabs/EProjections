@@ -104,6 +104,8 @@ export function addColorToTemplate(color, element) {
   element.empty = false;
   element.is_color = true;
   element.src = color;
+  element.isVideo = false;
+  element.isLooped = false;
 }
 
 export function addGridTemplates(n) {
