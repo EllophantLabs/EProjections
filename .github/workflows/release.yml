@@ -40,4 +40,4 @@ jobs:
     
           # 3. Signierung mit npx und sicherem Quoting
           # Das `--` sorgt dafür, dass npx alle folgenden Argumente direkt an tauri weiterreicht
-          tauri signer sign -k "$env:TAURI_PRIVATE_KEY" "$fullMsiPath"
+          npm run tauri signer sign -k "$env:TAURI_PRIVATE_KEY" "$fullMsiPath"
