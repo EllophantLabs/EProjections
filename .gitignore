@@ -22,3 +22,7 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+# custom entries
+src-tauri/tauri.key
+src-tauri/tauri.key.pub
