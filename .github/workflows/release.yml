@@ -26,17 +26,18 @@ jobs:
 
       - name: build and show signature
         shell: powershell
+        env:
+          TAURI_PRIVATE_KEY: ${{ secrets.TAURI_PRIVATE_KEY }}
+          TAURI_KEY_PASSWORD: ${{ secrets.TAURI_KEY_PASSWORD }}
         run: |
-          $env:TAURI_PRIVATE_KEY = "${{ secrets.TAURI_PRIVATE_KEY }}"
-          $env:TAURI_KEY_PASSWORD = "${{ secrets.TAURI_KEY_PASSWORD }}"
-          
           # 1. Build
           npm run tauri build
-          
-          # 2. Absoluten Pfad zur MSI finden
+    
+          # 2. Pfad finden
           $msiFile = Get-ChildItem -Path "src-tauri/target/release/bundle/msi/*.msi" | Select-Object -First 1
           $fullMsiPath = $msiFile.FullName
           Write-Host "Target MSI: $fullMsiPath"
-          
-          # 3. DIREKTER Aufruf der tauri.cmd (umgeht npm/npx Probleme)
-          & "./node_modules/.bin/tauri.cmd" signer sign -k "$env:TAURI_PRIVATE_KEY" "$fullMsiPath"
+    
+          # 3. Signierung mit npx und sicherem Quoting
+          # Das `--` sorgt dafür, dass npx alle folgenden Argumente direkt an tauri weiterreicht
+          npx tauri signer sign -k "$env:TAURI_PRIVATE_KEY" "$fullMsiPath"
