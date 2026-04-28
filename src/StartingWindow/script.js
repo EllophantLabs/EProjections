@@ -2,7 +2,7 @@ const { getCurrentWebviewWindow } = window.__TAURI__.webviewWindow;
 const { invoke } = window.__TAURI__.core;
 const { open } = window.__TAURI__.dialog;
 const { save } = window.__TAURI__.dialog;
-const {emit} = window.__TAURI__.event;
+const { emit } = window.__TAURI__.event;
 
 const appWindow = getCurrentWebviewWindow();
 
@@ -47,9 +47,9 @@ async function create_new_project(path) {
 }
 
 window.addEventListener("DOMContentLoaded", () => {
-  document.getElementById("closeBtn").addEventListener("click",()=>{
+  document.getElementById("closeBtn").addEventListener("click", () => {
     invoke("close_start_window");
-  })
+  });
   // load project
   document.getElementById("folderBtn").addEventListener("click", async () => {
     const result = await chooseFolder();
@@ -64,7 +64,6 @@ window.addEventListener("DOMContentLoaded", () => {
     .addEventListener("click", async () => {
       let path = await chooseNewFolder();
       await create_new_project(path);
-      
       await invoke("open_main_window");
       await new Promise((resolve) => setTimeout(resolve, 100));
       await appWindow.close();
@@ -73,12 +72,11 @@ window.addEventListener("DOMContentLoaded", () => {
 
 window.addEventListener("contextmenu", (e) => e.preventDefault());
 
-window.addEventListener("keydown",(event)=>{
+window.addEventListener("keydown", (event) => {
   event.preventDefault();
-  switch(event.key)
-  {
+  switch (event.key) {
     case "Escape":
       invoke("close_start_window");
       break;
   }
-})
+});

@@ -1,5 +1,7 @@
 use tauri::{App, Manager};
 use tauri::{AppHandle, Emitter, WebviewUrl, WebviewWindowBuilder};
+use tauri_plugin_dialog::DialogExt;
+use tauri_plugin_updater::UpdaterExt;
 
 mod data_stream;
 use crate::data_stream::create_new_project;
@@ -14,6 +16,55 @@ use crate::data_stream::set_project_path;
 use crate::data_stream::ProjectDir;
 
 // Learn more about Tauri commands at https://tauri.app/develop/calling-rust/
+
+async fn check_for_updates(handle: AppHandle) {
+    let updater = handle.updater().expect("Updater-Plugin nicht geladen");
+
+    match updater.check().await {
+        Ok(Some(update)) => {
+            let (tx, rx) = std::sync::mpsc::channel();
+
+            // ask user!
+            handle
+                .dialog()
+                .message(format!(
+                    "Version {} ist verfügbar. Jetzt installieren?",
+                    update.version
+                ))
+                .title("Update verfügbar")
+                .buttons(tauri_plugin_dialog::MessageDialogButtons::OkCancelCustom(
+                    "Installieren".into(),
+                    "Später".into(),
+                ))
+                .show(move |result| {
+                    let _ = tx.send(result);
+                });
+
+            // wait for user response!
+            if rx.recv().unwrap_or(false) {
+                let _overlay = WebviewWindowBuilder::new(
+                    &handle,
+                    "update_overlay",
+                    WebviewUrl::App("UpdateWindow/index.html".into()),
+                )
+                .title("Updating...")
+                .inner_size(400.0, 220.0)
+                .decorations(false)
+                .always_on_top(true)
+                .center()
+                .build();
+
+                // download and install
+                if let Ok(_) = update.download_and_install(|_, _| {}, || {}).await {
+                    handle.restart();
+                }
+            }
+        }
+        Ok(None) => println!("App ist auf dem neuesten Stand."),
+        Err(e) => eprintln!("Fehler beim Update-Check: {}", e),
+    }
+}
+
 #[tauri::command]
 async fn open_window(app: AppHandle) {
     //* search through all monitors available */
@@ -97,6 +148,15 @@ pub fn run() {
         .plugin(tauri_plugin_opener::init())
         .manage(ProjectDir {
             path: std::sync::OnceLock::new(),
+        })
+        .setup(|app| {
+            let handle = app.handle().clone();
+
+            tauri::async_runtime::spawn(async move{
+                check_for_updates(handle).await;
+            });
+
+            Ok(())
         })
         .invoke_handler(tauri::generate_handler![
             open_window,
