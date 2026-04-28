@@ -57,10 +57,10 @@
     "updater": {
       "active": true,
       "endpoints": [
-        "https://raw.githubusercontent.com/DEIN_GITHUB_NAME/DEIN_REPO_NAME/main/updater.json"
+        "https://raw.githubusercontent.com/aCodingCube/EProjections/main/updater.json"
       ],
       "dialog": false,
-      "pubkey": "DEIN_GENERIERTER_PUBLIC_KEY_HIER_EINSETZEN"
+      "pubkey": "dW50cnVzdGVkIGNvbW1lbnQ6IG1pbmlzaWduIHB1YmxpYyBrZXk6IDZGM0FBREU2MTlGMjdGRTgKUldUb2YvSVo1cTA2YjdnZ3JwS0R1VTNIMSs5NTdMTUlNdndnRkhDc2k3ZkUyK21PSWtUUkdRQVgK"
     }
   }
 }
