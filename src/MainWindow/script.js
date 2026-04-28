@@ -3,6 +3,8 @@ const { convertFileSrc } = window.__TAURI__.core;
 const { open } = window.__TAURI__.dialog;
 const { emit } = window.__TAURI__.event;
 
+import {cue} from "../SecWindow/script.js";
+
 import {
   addGridTemplates,
   addMoveTemplate,
@@ -21,7 +23,7 @@ import {
   editDeselectAll,
   displayDeselectAll,
   sendMedia,
-  updateReloadBtn,
+  updateLoopBtn,
   pubIsLooped,
 } from "./ui_grid_logic.js";
 import { keyRightArrow, keyLeftArrow, keyEnter } from "./keyboard_logic.js";
@@ -191,6 +193,9 @@ function isLoopedToggleFn(event) {
 
   const btn = event.currentTarget;
   parent.isLooped = !parent.isLooped;
+
+  cue.payload.isLooped = parent.isLooped; //* Update cue in ../SecWindow/script.js !
+  console.log("updated loop cue!");
 
   if(parent.isLooped)
   {
@@ -363,12 +368,12 @@ window.addEventListener("keydown", async (event) => {
     case "ArrowRight":
       event.preventDefault();
       keyRightArrow();
-      updateReloadBtn();
+      updateLoopBtn();
       break;
     case "ArrowLeft":
       event.preventDefault();
       keyLeftArrow();
-      updateReloadBtn();
+      updateLoopBtn();
       break;
     case " ":
       event.preventDefault();

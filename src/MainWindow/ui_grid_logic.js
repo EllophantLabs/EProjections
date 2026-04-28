@@ -1,4 +1,5 @@
 import { transitionToggle, editToggle } from "./script.js";
+import {cue} from "../SecWindow/script.js";
 
 const { invoke } = window.__TAURI__.core;
 const { convertFileSrc } = window.__TAURI__.core;
@@ -122,7 +123,7 @@ export async function handleMediaClick(event, name) {
     if (!isDisplaySelected(element)) {
       displayDeselectAll();
       displaySelect(element);
-      updateReloadBtn();
+      updateLoopBtn();
 
       // preload media
       let path = await invoke("get_file_src", { fileName: name });
@@ -132,7 +133,7 @@ export async function handleMediaClick(event, name) {
 
     if (isDisplaySelected(element) && !isPlaying(element)) {
       displayDeselect(element);
-      updateReloadBtn();
+      updateLoopBtn();
       unmarkPlayingAll();
       markPlaying(element);
       // trigger element playing
@@ -146,7 +147,7 @@ export async function handleMediaClick(event, name) {
     }
     return;
   }
-  updateReloadBtn();
+  updateLoopBtn();
 }
 
 export function handleColorClick(event, color) {
@@ -165,7 +166,7 @@ export function handleColorClick(event, color) {
     if (!isDisplaySelected(element)) {
       displayDeselectAll();
       displaySelect(element);
-      updateReloadBtn();
+      updateLoopBtn();
       // preload media
       sendMedia(color, true, element);
       return;
@@ -173,7 +174,7 @@ export function handleColorClick(event, color) {
 
     if (isDisplaySelected(element) && !isPlaying(element)) {
       displayDeselect(element);
-      updateReloadBtn();
+      updateLoopBtn();
       unmarkPlayingAll();
       markPlaying(element);
       // trigger element playing
@@ -187,7 +188,7 @@ export function handleColorClick(event, color) {
     }
     return;
   }
-  updateReloadBtn();
+  updateLoopBtn();
 }
 
 export function selectionModeChange() {
@@ -268,7 +269,7 @@ export function playingElement(element) {
 
 export let pubIsLooped = false;
 
-export function updateReloadBtn() {
+export function updateLoopBtn() {
   const elements = document.querySelectorAll(".displaySelected");
   const element = elements[0];
   const btn = document.getElementById("loopBtn");

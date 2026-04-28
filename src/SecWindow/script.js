@@ -18,7 +18,7 @@ gainNodes[1].connect(audioCtx.destination);
 let audioSourceCounter = 0;
 
 //* public Media state
-const cue = {
+export const cue = {
   payload: {},
 };
 
@@ -222,6 +222,7 @@ function preloadCue() {
   if (!bufferSlot) return;
   // load cue into bufferSlot
   const { url, isVideo, isColor, isLooped } = cue.payload;
+  console.log("isLooped cue: " + isLooped);
   cueIsValid = false;
 
   if (isVideo) {
