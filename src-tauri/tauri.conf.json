@@ -59,7 +59,7 @@
       "endpoints": [
         "https://raw.githubusercontent.com/aCodingCube/EProjections/main/updater.json"
       ],
-      "dialog": false,
+      "dialog": true,
       "pubkey": "RWTof/IZ5q06b7ggrpKDuU3H1+957LMIMvwgFHCsi7fE2+mOIkTRGQAX"
     }
   }
