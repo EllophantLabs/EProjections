@@ -16,7 +16,8 @@ body {
   color: var(--color-text);
   user-select: none;
 
-  background-image: url("/assets/darkBluredStartImage.jpg");
+  /* background-image: url("/assets/darkBluredStartImage.jpg"); */
+  background-image: url("/assets/Start-Image-Ai5.png");
 
   background-size: cover;
   background-position: center;
