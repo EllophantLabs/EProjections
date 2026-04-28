@@ -30,15 +30,10 @@ jobs:
           $env:TAURI_PRIVATE_KEY = "${{ secrets.TAURI_PRIVATE_KEY }}"
           $env:TAURI_KEY_PASSWORD = "${{ secrets.TAURI_KEY_PASSWORD }}"
           npm run tauri build
-          # Die Signatur wird jetzt direkt ins Log geschrieben
-          npx tauri signer sign -k "$env:TAURI_PRIVATE_KEY" "src-tauri/target/release/bundle/msi/Screen-Ellophant_0.1.6_x64_en-US.msi"
-
-      - name: create release and upload
-        uses: tauri-apps/tauri-action@v0
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          tagName: ${{ github.ref_name }}
-          releaseName: "Screen-Ellophant ${{ github.ref_name }}"
-          releaseDraft: true
-          prerelease: false
+          
+          # Wir suchen die MSI dynamisch, damit der Pfad immer stimmt
+          $msiPath = Get-ChildItem -Path "src-tauri/target/release/bundle/msi/*.msi" | Select-Object -ExpandProperty FullName
+          Write-Host "Signing file at: $msiPath"
+          
+          # Jetzt signieren wir mit dem gefundenen Pfad
+          npx tauri signer sign -k "$env:TAURI_PRIVATE_KEY" "$msiPath"
