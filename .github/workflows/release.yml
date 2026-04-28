@@ -3,7 +3,7 @@ name: "Release Screen Ellophant"
 on:
   push:
     tags:
-      - 'v*' # Startet, wenn du einen Tag wie v0.1.6 pushst
+      - 'v*'
 
 jobs:
   publish-tauri:
@@ -28,10 +28,11 @@ jobs:
         uses: tauri-apps/tauri-action@v0
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          # Diese beiden müssen EXAKT hier eingerückt sein
           TAURI_PRIVATE_KEY: ${{ secrets.TAURI_PRIVATE_KEY }}
           TAURI_KEY_PASSWORD: ${{ secrets.TAURI_KEY_PASSWORD }}
         with:
-          tagName: v__VERSION__
-          releaseName: "Screen Ellophant v__VERSION__"
+          tagName: ${{ github.ref_name }} # Nutzt den Tag, den du pushst (z.B. v0.1.6)
+          releaseName: "Screen Ellophant ${{ github.ref_name }}"
           releaseDraft: true
           prerelease: false
