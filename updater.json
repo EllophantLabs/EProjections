@@ -1,7 +1,7 @@
 {
-  "version": "1.0.0",
+  "version": "0.1.6",
   "notes": "Initialer Release von Screen Ellophant.",
-  "pub_date": "2026-04-28T12:00:00Z",
+  "pub_date": "2026-04-28T12:37:00Z",
   "platforms": {
     "windows-x86_64": {
       "signature": "DEINE_SIGNATUR_WIRD_HIER_STEHEN",
