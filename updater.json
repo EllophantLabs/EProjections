@@ -4,8 +4,8 @@
   "pub_date": "2026-04-28T12:37:00Z",
   "platforms": {
     "windows-x86_64": {
-      "signature": "DEINE_SIGNATUR_WIRD_HIER_STEHEN",
-      "url": "https://github.com/aCodingCube/EProjections/releases/download/v0.1.6/EProjections_0.1.6_x64_en-US.msi.zip"
+      "signature": "dW50cnVzdGVkIGNvbW1lbnQ6IHNpZ25hdHVyZSBmcm9tIHRhdXJpIHNlY3JldCBrZXkKUlVUb2YvSVo1cTA2YjZjOThMRlNDTUpsUmV1T28vaEhrUkVKeW9yYS9uallWYkF6VGNhRG1SejViVCt1empwcUwwTHlDVlcxTmdNNEY1TCtoektGVjJlRHo2bjV6Y0tnb3cwPQp0cnVzdGVkIGNvbW1lbnQ6IHRpbWVzdGFtcDoxNzc3Mzk0NDc5CWZpbGU6U2NyZWVuLUVsbG9waGFudF8wLjEuNl94NjRfZW4tVVMubXNpCnZlRURpNFl0N093Ykh1dG9HNUhvMHVjSi9Ma0hMMFFKa3VVaTNURXhSMXA0OHZVeG9KWHBhcmxxK2xlT0NXUmNmQXV1eHhqNzh1eDNiR2IxcTIyREJ3PT0K",
+      "url": "https://github.com/aCodingCube/EProjections/releases/download/v0.1.6/EProjections_0.1.6_x64_en-US.msi"
     }
   }
 }
