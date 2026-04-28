@@ -30,6 +30,7 @@ jobs:
           TAURI_PRIVATE_KEY: ${{ secrets.TAURI_PRIVATE_KEY }}
           TAURI_SIGNING_PRIVATE_KEY: ${{ secrets.TAURI_PRIVATE_KEY }}
           TAURI_KEY_PASSWORD: ${{ secrets.TAURI_KEY_PASSWORD }}
+          TAURI_SIGNING_PRIVATE_KEY_PASSWORD: ${{ secrets.TAURI_KEY_PASSWORD }}
         run: |
           # 1. Build
           npm run tauri build
@@ -41,4 +42,4 @@ jobs:
     
           # 3. Signierung mit npx und sicherem Quoting
           # Das `--` sorgt dafür, dass npx alle folgenden Argumente direkt an tauri weiterreicht
-          npm run tauri signer sign -p "$env:TAURI_SIGNING_PRIVATE_KEY" "$fullMsiPath"
+          npm run tauri signer sign -p "$env:TAURI_SIGNING_PRIVATE_KEY_PASSWORD" "$fullMsiPath"
