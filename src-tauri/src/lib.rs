@@ -2,12 +2,12 @@ use tauri::{App, Manager};
 use tauri::{AppHandle, Emitter, WebviewUrl, WebviewWindowBuilder};
 
 mod data_stream;
-use crate::data_stream::open_project_folder;
 use crate::data_stream::create_new_project;
 use crate::data_stream::get_file_src;
 use crate::data_stream::get_media_path;
 use crate::data_stream::load_asset_names;
 use crate::data_stream::load_layout;
+use crate::data_stream::open_project_folder;
 use crate::data_stream::save_empty_layout;
 use crate::data_stream::save_layout;
 use crate::data_stream::set_project_path;
@@ -91,6 +91,7 @@ async fn close_main_window(app: AppHandle) {
 #[cfg_attr(mobile, tauri::mobile_entry_point)]
 pub fn run() {
     tauri::Builder::default()
+        .plugin(tauri_plugin_updater::Builder::new().build())
         .plugin(tauri_plugin_dialog::init())
         .plugin(tauri_plugin_fs::init())
         .plugin(tauri_plugin_opener::init())

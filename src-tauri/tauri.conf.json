@@ -52,5 +52,15 @@
       "icons/icon.icns",
       "icons/icon.ico"
     ]
+  },
+  "plugins": {
+    "updater": {
+      "active": true,
+      "endpoints": [
+        "https://raw.githubusercontent.com/DEIN_GITHUB_NAME/DEIN_REPO_NAME/main/updater.json"
+      ],
+      "dialog": false,
+      "pubkey": "DEIN_GENERIERTER_PUBLIC_KEY_HIER_EINSETZEN"
+    }
   }
 }
