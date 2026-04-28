@@ -1,11 +1,11 @@
 {
-  "version": "0.2.4",
+  "version": "0.2.5",
   "notes": "Und ein weiteres Update... :)",
   "pub_date": "2026-04-28T12:37:00Z",
   "platforms": {
     "windows-x86_64": {
       "signature": "Q2GNA2y4GTFpu8sptbCfbqePI2A6c4n8awLGQZCq0u9r6pAqJ0WcWjZwyHhoA9GAHcO63VEKqTiKjCr/zDl+BA==",
-      "url": "https://github.com/aCodingCube/EProjections/releases/download/v0.2.4/Screen-Ellophant_0.2.4_x64_en-US.msi"
+      "url": "https://github.com/aCodingCube/EProjections/releases/download/v0.2.5/Screen-Ellophant_0.2.5_x64_en-US.msi"
     }
   }
 }
