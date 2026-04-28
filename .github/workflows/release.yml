@@ -30,13 +30,13 @@ jobs:
           $env:TAURI_PRIVATE_KEY = "${{ secrets.TAURI_PRIVATE_KEY }}"
           $env:TAURI_KEY_PASSWORD = "${{ secrets.TAURI_KEY_PASSWORD }}"
           
-          # 1. Build ausführen
+          # 1. Build
           npm run tauri build
           
-          # 2. Den Pfad zur MSI finden
-          $msiPath = Get-ChildItem -Path "src-tauri/target/release/bundle/msi/*.msi" | Select-Object -ExpandProperty FullName
-          Write-Host "Signing file at: $msiPath"
+          # 2. Absoluten Pfad zur MSI finden
+          $msiFile = Get-ChildItem -Path "src-tauri/target/release/bundle/msi/*.msi" | Select-Object -First 1
+          $fullMsiPath = $msiFile.FullName
+          Write-Host "Target MSI: $fullMsiPath"
           
-          # 3. Den Signer über npx aufrufen, aber mit expliziter Pfad-Übergabe
-          # Wir nutzen -- um npm zu sagen: "Alles danach gehört zum Signer-Tool"
-          npx tauri signer sign -k "$env:TAURI_PRIVATE_KEY" "$msiPath"
+          # 3. DIREKTER Aufruf der tauri.cmd (umgeht npm/npx Probleme)
+          & "./node_modules/.bin/tauri.cmd" signer sign -k "$env:TAURI_PRIVATE_KEY" "$fullMsiPath"
