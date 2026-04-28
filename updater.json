@@ -5,7 +5,7 @@
   "platforms": {
     "windows-x86_64": {
       "signature": "DEINE_SIGNATUR_WIRD_HIER_STEHEN",
-      "url": "https://github.com/DEIN_GITHUB_NAME/DEIN_REPO_NAME/releases/download/v1.0.0/EProjections_1.0.0_x64_en-US.msi.zip"
+      "url": "https://github.com/aCodingCube/EProjections/releases/download/v0.1.6/EProjections_0.1.6_x64_en-US.msi.zip"
     }
   }
 }
