@@ -5,7 +5,6 @@ import { transitionToggle } from "../MainWindow/script.js";
 
 const audioCtx = new AudioContext();
 const appWindow = getCurrentWebviewWindow();
-const cue = {};
 let cueIsValid = false;
 let isSwapping = false;
 let triedLoading = false;
@@ -18,28 +17,31 @@ gainNodes[0].connect(audioCtx.destination);
 gainNodes[1].connect(audioCtx.destination);
 let audioSourceCounter = 0;
 
+//* public Media state
+const cue = {
+  payload: {},
+};
+
 //* listen for emit-signals
 //* loading and preloading
 
 // listen for preload
 listen("preload_media", (event) => {
+  // buffering state in pub state
+  const snapshot = structuredClone(event.payload);
+  console.log("Check snapshot: " + snapshot);
+  console.log("Verfügbare Keys im Snapshot:", Object.keys(snapshot));
+  cue.payload = snapshot;
+  console.log("cue: " + cue.payload + " test: url-> " + cue.payload.url);
+
   if (isSwapping) {
     // if currently swapping -> load to cue
-    cue[0] = event.payload.url;
-    cue[1] = event.payload.isVideo;
-    cue[2] = event.payload.isColor;
-    cue[3] = event.payload.isLooped;
     cueIsValid = true;
     return;
   }
 
-  cue[0] = event.payload.url;
-  cue[1] = event.payload.isVideo;
-  cue[2] = event.payload.isColor;
-  cue[3] = event.payload.isLooped;
-
   // else
-  const { url, isVideo, isColor, isLooped } = event.payload;
+  const { url, isVideo, isColor, isLooped } = snapshot;
   const bufferSlot = document.querySelector(".media-slot:not(.active)");
   bufferSlot.innerHTML = "";
 
@@ -219,10 +221,7 @@ function preloadCue() {
 
   if (!bufferSlot) return;
   // load cue into bufferSlot
-  const url = cue[0];
-  const isVideo = cue[1];
-  const isColor = cue[2];
-  const isLooped = cue[3];
+  const { url, isVideo, isColor, isLooped } = cue.payload;
   cueIsValid = false;
 
   if (isVideo) {
@@ -289,7 +288,7 @@ function checkAndSwap() {
 window.addEventListener("contextmenu", (e) => e.preventDefault());
 
 window.addEventListener("keydown", async (event) => {
-  event.preventDefault();
+  // event.preventDefault();
   switch (event.key) {
     case "Escape":
       await appWindow.close();

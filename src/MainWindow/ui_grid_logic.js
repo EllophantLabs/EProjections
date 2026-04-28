@@ -26,6 +26,7 @@ export async function sendMedia(path, is_color, element) {
   if(isVideo)
   {
     isLooped = element.parentElement.isLooped;
+    console.log("Main isLooped: " + isLooped);
   }
 
   const assetUrl = convertFileSrc(path);
@@ -234,12 +235,12 @@ export async function displaySelectMedia(element) {
   displaySelect(element.firstChild);
   // preload media
   if (element.is_color) {
-    sendMedia(element.src, true, element);
+    sendMedia(element.src, true, element.firstChild);
     return;
   }
 
   let path = await invoke("get_file_src", { fileName: element.src });
-  sendMedia(path, false, element);
+  sendMedia(path, false, element.firstChild);
 }
 
 export function playingElement(element) {
