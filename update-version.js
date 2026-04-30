@@ -14,7 +14,7 @@ const filesToUpdate = [
     replacement: `"version": "${newVersion}"`,
   },
   {
-    path: "./StartingWindow/index.html",
+    path: "./src/StartingWindow/index.html",
     pattern: /Screen Ellophant \d+\.\d+\.\d+/,
     replacement: `Screen Ellophant ${newVersion}`,
   },
