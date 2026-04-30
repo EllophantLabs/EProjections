@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "tauri": "tauri",
-    "postversion": "node update-version.js"
+    "version": "node update-version.js"
   },
   "devDependencies": {
     "@tauri-apps/cli": "^2"
