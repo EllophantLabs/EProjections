@@ -1,4 +1,4 @@
-import {fs} from "fs";
+const fs = require("fs");
 
 const newVersion = process.env.npm_package_version;
 
