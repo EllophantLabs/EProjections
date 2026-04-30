@@ -8,7 +8,7 @@ listen("start_unlock", (event) => {
 
   const status = document.getElementById("status");
 
-  if ((event.payload = true)) {
+  if (event.payload) {
     status.innerText = "-aktuellste Version ✓-";
     return;
   }
