@@ -1,11 +1,11 @@
 {
-  "version": "0.2.7",
+  "version": "0.2.8",
   "notes": "Und ein weiteres Update... :)",
   "pub_date": "2026-04-28T12:37:00Z",
   "platforms": {
     "windows-x86_64": {
       "signature": "zIgIY7JQwKfGqWbwImSwiHY2BCLWhfVc4m3+e41jx6UUAaOk9HSlM/t2nQ1ySVp5poyVPN7ujRtxMha4CILfDw==",
-      "url": "https://github.com/EllophantLabs/EProjections/releases/download/v0.2.7/Screen-Ellophant_0.2.7_x64_en-US.msi"
+      "url": "https://github.com/EllophantLabs/EProjections/releases/download/v0.2.8/Screen-Ellophant_0.2.8_x64_en-US.msi"
     }
   }
 }

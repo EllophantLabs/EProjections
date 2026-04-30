@@ -359,7 +359,7 @@ window.addEventListener("DOMContentLoaded", () => {
 window.addEventListener("contextmenu", (e) => e.preventDefault());
 
 window.addEventListener("keydown", async (event) => {
-  // event.preventDefault();
+  event.preventDefault();
   if (event.repeat) {
     return;
   }
