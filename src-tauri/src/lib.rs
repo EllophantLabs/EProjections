@@ -45,8 +45,14 @@ async fn check_for_updates(handle: AppHandle, window: tauri::WebviewWindow) {
                 window.emit("start_update", true).unwrap();
 
                 // download and install
-                if let Ok(_) = update.download_and_install(|_, _| {}, || {}).await {
-                    handle.restart();
+                match update.download_and_install(|_, _| {}, || {}).await {
+                    Ok(_) => {
+                        handle.restart();
+                    },
+                    Err(e) => {
+                        eprintln!("{}",e);
+                        window.emit("start_unlock",false).unwrap();
+                    }
                 }
             } else {
                 window.emit("start_update", false).unwrap();
@@ -54,11 +60,11 @@ async fn check_for_updates(handle: AppHandle, window: tauri::WebviewWindow) {
         }
         Ok(None) => {
             println!("App ist auf dem neuesten Stand.");
-            window.emit("start_unlock",true);
+            window.emit("start_unlock",true).unwrap();
         }
         Err(e) => {
             eprintln!("Fehler beim Update-Check: {}", e);
-            window.emit("start_unlock", false);
+            window.emit("start_unlock", false).unwrap();
         }
     }
 }
