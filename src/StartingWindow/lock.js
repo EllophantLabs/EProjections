@@ -9,7 +9,7 @@ listen("start_unlock", (event) => {
   const status = document.getElementById("status");
 
   if ((event.payload = true)) {
-    status.innerText = "-aktuellste Version-";
+    status.innerText = "-aktuellste Version ✓-";
     return;
   }
   status.innerText = "-keine Internetverbindung-";
