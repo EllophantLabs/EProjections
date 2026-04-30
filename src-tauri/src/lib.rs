@@ -1,5 +1,5 @@
-use tauri::{App, Manager};
-use tauri::{AppHandle, Emitter, WebviewUrl, WebviewWindowBuilder};
+use tauri::{window, App, Manager};
+use tauri::{AppHandle, Emitter, Runtime, WebviewUrl, WebviewWindowBuilder};
 use tauri_plugin_dialog::DialogExt;
 use tauri_plugin_updater::UpdaterExt;
 
@@ -17,7 +17,7 @@ use crate::data_stream::ProjectDir;
 
 // Learn more about Tauri commands at https://tauri.app/develop/calling-rust/
 
-async fn check_for_updates(handle: AppHandle) {
+async fn check_for_updates(handle: AppHandle, window: tauri::WebviewWindow) {
     let updater = handle.updater().expect("Updater-Plugin nicht geladen");
 
     match updater.check().await {
@@ -42,26 +42,24 @@ async fn check_for_updates(handle: AppHandle) {
 
             // wait for user response!
             if rx.recv().unwrap_or(false) {
-                let _overlay = WebviewWindowBuilder::new(
-                    &handle,
-                    "update_overlay",
-                    WebviewUrl::App("UpdateWindow/index.html".into()),
-                )
-                .title("Updating...")
-                .inner_size(400.0, 220.0)
-                .decorations(false)
-                .always_on_top(true)
-                .center()
-                .build();
+                window.emit("start_update", true).unwrap();
 
                 // download and install
                 if let Ok(_) = update.download_and_install(|_, _| {}, || {}).await {
                     handle.restart();
                 }
+            } else {
+                window.emit("start_update", true).unwrap();
             }
         }
-        Ok(None) => println!("App ist auf dem neuesten Stand."),
-        Err(e) => eprintln!("Fehler beim Update-Check: {}", e),
+        Ok(None) => {
+            println!("App ist auf dem neuesten Stand.");
+            window.emit("start_unlock",true);
+        }
+        Err(e) => {
+            eprintln!("Fehler beim Update-Check: {}", e);
+            window.emit("start_unlock", false);
+        }
     }
 }
 
@@ -152,8 +150,10 @@ pub fn run() {
         .setup(|app| {
             let handle = app.handle().clone();
 
-            tauri::async_runtime::spawn(async move{
-                check_for_updates(handle).await;
+            tauri::async_runtime::spawn(async move {
+                if let Some(window) = handle.get_webview_window("main") {
+                    check_for_updates(handle, window).await;
+                }
             });
 
             Ok(())

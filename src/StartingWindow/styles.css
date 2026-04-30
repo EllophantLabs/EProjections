@@ -41,6 +41,14 @@ h1 {
   font-weight: bold;
 }
 
+#status {
+  text-align: center;
+  color: var(--color-text);
+  font-family:
+    "Lucida Sans", "Lucida Sans Regular", "Lucida Grande",
+    "Lucida Sans Unicode", Geneva, Verdana, sans-serif;
+}
+
 #lowerContainer {
   margin-top: auto;
   margin-bottom: 5%;
@@ -49,6 +57,7 @@ h1 {
   justify-content: center;
   gap: 10%;
   width: 100%;
+  visibility: hidden;
 }
 
 .btns {
