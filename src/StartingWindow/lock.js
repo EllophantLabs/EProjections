@@ -25,5 +25,8 @@ listen("start_update", (event) => {
     status.innerText = "Update wird heruntergeladen und installiert!";
     return;
   }
-  status.innerText = "-Neues Update verfügbar!";
+  status.innerText = "-Neues Update verfügbar!-";
+  // unlock start-window
+  const lowerContainer = document.getElementById("lowerContainer");
+  lowerContainer.style.visibility = "visible";
 });

@@ -49,7 +49,7 @@ async fn check_for_updates(handle: AppHandle, window: tauri::WebviewWindow) {
                     handle.restart();
                 }
             } else {
-                window.emit("start_update", true).unwrap();
+                window.emit("start_update", false).unwrap();
             }
         }
         Ok(None) => {
