@@ -4,7 +4,7 @@
   "pub_date": "2026-04-28T12:37:00Z",
   "platforms": {
     "windows-x86_64": {
-      "signature": "2bFymb3L+hQQMPvhHoDFi3jitGshbz3osJ13Uc7xOA0nVlTO+Nl55Eh7KlCpnciO2cPGIaYBTstWgVno/GwuAg==",
+      "signature": "2dW50cnVzdGVkIGNvbW1lbnQ6IHNpZ25hdHVyZSBmcm9tIHRhdXJpIHNlY3JldCBrZXkKUlVUb2YvSVo1cTA2YnlFMGJJeUJhUVdiRytNdk9MdThFdmtqbDRieUhRRUtVRXo1aDRXMUtsNTJFbjZPVndvOU1QNVpPWGJvYkhjYkIwN0FSeDEyazBoeFdZWTdPSWRZTlF3PQp0cnVzdGVkIGNvbW1lbnQ6IHRpbWVzdGFtcDoxNzc3NTYwNjEzCWZpbGU6U2NyZWVuLUVsbG9waGFudF8wLjMuMF94NjRfZW4tVVMubXNpCjJiRnltYjNMK2hRUU1QdmhIb0RGaTNqaXRHc2hiejNvc0oxM1VjN3hPQTBuVmxUTytObDU1RWg3S2xDcG5jaU8yY1BHSWFZQlRzdFdnVm5vL0d3dUFnPT0K",
       "url": "https://github.com/EllophantLabs/EProjections/releases/download/v0.3.0/Screen-Ellophant_0.3.0_x64_en-US.msi"
     }
   }
