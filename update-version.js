@@ -17,7 +17,7 @@ const filesToUpdate = [
     patterns: [{ regex: /"version": ".*?"/, replace: `"version": "${newVersion}"` }]
   },
   { 
-    path: './StartingWindow/index.html', 
+    path: './src/StartingWindow/index.html', 
     patterns: [{ regex: /Screen Ellophant \d+\.\d+\.\d+/, replace: `Screen Ellophant ${newVersion}` }]
   }
 ];
