@@ -1,4 +1,4 @@
-import {fs} from "fs";
+const fs = require("fs");
 
 const newVersion = process.env.npm_package_version;
 
@@ -15,8 +15,8 @@ const filesToUpdate = [
   },
   {
     path: "./StartingWindow/index.html",
-    pattern: /v\d+\.\d+\.\d+/,
-    replacement: `v${newVersion}`,
+    pattern: /Screen Ellophant \d+\.\d+\.\d+/,
+    replacement: `Screen Ellophant ${newVersion}`,
   },
 ];
 
@@ -25,6 +25,8 @@ filesToUpdate.forEach((file) => {
     let content = fs.readFileSync(file.path, "utf8");
     content = content.replace(file.pattern, file.replacement);
     fs.writeFileSync(file.path, content);
-    console.log(`Updated ${file.path} to ${newVersion}`);
+    console.log(`✅ Updated ${file.path} to ${newVersion}`);
+  } else {
+    console.error(`❌ File not found: ${file.path}`);
   }
 });
