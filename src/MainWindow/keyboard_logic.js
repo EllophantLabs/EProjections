@@ -16,22 +16,26 @@ import {
 
 let selectedIndex = 0;
 
+// return next element to the left
 function nextElementLeft() {
+  // move by -1 in layout and return element
   const newIndex = selectedIndex - 1;
   const newElement = document.getElementById(layout[newIndex]);
   newElement.scrollIntoView({
     behavior: "smooth",
     block: "center",
-    inline: "nearest"
+    inline: "nearest",
   });
   return newElement;
 }
 
+// key input -> left
 export function keyLeftArrow() {
   if (editToggle) {
     return;
   }
 
+  // move from last selected element, if not from start(0)
   const selectedElement = document.querySelector(".displaySelected");
   if (!selectedElement) {
     selectedIndex = 0;
@@ -39,6 +43,7 @@ export function keyLeftArrow() {
     selectedIndex = layout.indexOf(selectedElement.parentElement.id);
   }
 
+  // move by 1 while skipping empty grids and overflow back to start(i = -1 => i = 0)
   let result = false;
   for (let i = selectedIndex - 1; i >= 0; i--) {
     const newElement = nextElementLeft();
@@ -53,27 +58,32 @@ export function keyLeftArrow() {
     selectedIndex = 1;
   }
 
+  // send new selection
   const newIndex = selectedIndex - 1;
   const newElement = document.getElementById(layout[newIndex]);
   displaySelectMedia(newElement);
 }
 
+// return next element to the right
 function nextElementRight() {
+  // move by 1 in layout and return element
   const newIndex = selectedIndex + 1;
   const newElement = document.getElementById(layout[newIndex]);
   newElement.scrollIntoView({
     behavior: "smooth",
     block: "center",
-    inline: "nearest"
+    inline: "nearest",
   });
   return newElement;
 }
 
+// key input -> right
 export function keyRightArrow() {
   if (editToggle) {
     return;
   }
 
+  // move from last selected element, if not from start(0)
   const selectedElement = document.querySelector(".displaySelected");
   if (!selectedElement) {
     selectedIndex = 0;
@@ -81,6 +91,7 @@ export function keyRightArrow() {
     selectedIndex = layout.indexOf(selectedElement.parentElement.id);
   }
 
+  // move by 1 while skipping empty grids
   let result = false;
   for (let i = selectedIndex + 1; i < layout.length; i++) {
     const newElement = nextElementRight();
@@ -95,11 +106,13 @@ export function keyRightArrow() {
     selectedIndex = -1;
   }
 
+  // send new selection
   const newIndex = selectedIndex + 1;
   const newElement = document.getElementById(layout[newIndex]);
   displaySelectMedia(newElement);
 }
 
+// get selected media and mark it playing
 export function keyEnter() {
   if (editToggle) {
     return;

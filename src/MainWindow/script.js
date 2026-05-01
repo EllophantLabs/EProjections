@@ -3,7 +3,7 @@ const { convertFileSrc } = window.__TAURI__.core;
 const { open } = window.__TAURI__.dialog;
 const { emit } = window.__TAURI__.event;
 
-import {cue} from "../SecWindow/script.js";
+import { cue } from "../SecWindow/script.js";
 
 import {
   addGridTemplates,
@@ -28,6 +28,7 @@ import {
 } from "./ui_grid_logic.js";
 import { keyRightArrow, keyLeftArrow, keyEnter } from "./keyboard_logic.js";
 
+// global variables
 export let editToggle = false;
 let assetToggle = true;
 export let transitionToggle = true;
@@ -59,7 +60,7 @@ async function addAssetsToGridDisplay(name) {
     e.dataTransfer.setData("application/x-screen-monkey", name);
     e.dataTransfer.setData("application/src-screen-monkey", name);
     e.dataTransfer.setData("application/isVideo-screen-monkey", img.isVideo);
-    e.dataTransfer.setData("application/isLooped-screen-monkey",false);
+    e.dataTransfer.setData("application/isLooped-screen-monkey", false);
     e.dataTransfer.setData("application/imgSrc-screen-monkey", img.src);
     e.dataTransfer.effectAllowed = "copy";
   });
@@ -197,8 +198,7 @@ function isLoopedToggleFn(event) {
   cue.payload.isLooped = parent.isLooped; //* Update cue in ../SecWindow/script.js !
   console.log("updated loop cue!");
 
-  if(parent.isLooped)
-  {
+  if (parent.isLooped) {
     btn.classList.add("is-active");
     pubLoopToggle = true;
 
@@ -213,41 +213,52 @@ function isLoopedToggleFn(event) {
 
 //* Event-Listener
 window.addEventListener("DOMContentLoaded", () => {
-  document.getElementById("launchBtn").addEventListener("click", async (e) => {
-    await invoke("open_window");
+  //#region main-btns
+  // close main window
+  document.getElementById("closeBtn").addEventListener("click", async () => {
+    await invoke("close_main_window");
   });
 
-  // load assets
-  document.getElementById("loadBtn").addEventListener("click", async () => {
-    document.getElementById("container-left").replaceChildren();
-    const result = await invoke("load_asset_names");
-
-    result.forEach((name) => {
-      addAssetsToGridDisplay(name);
-    });
-  });
-
-  document.getElementById("templateBtn").addEventListener("click", () => {
-    if (!editToggle) {
-      return;
-    }
-    addGridTemplates(5);
-    addGhostMoveTemplate();
-  });
-
+  // toggle assets
   document.getElementById("assetToggle").addEventListener("click", () => {
     assetToggleFn();
   });
 
+  // toggle edit/presentation
   document.getElementById("editToggle").addEventListener("click", (event) => {
     editToggleFn();
   });
+  //#endregion
 
-  document.getElementById("colorBtn").addEventListener("click", () => {
-    const input = document.getElementById("colorInput");
-    addColorToGridDisplay(input.value);
+  //#region presentation btns
+  // open presentation window
+  document.getElementById("launchBtn").addEventListener("click", async (e) => {
+    await invoke("open_window");
   });
 
+  // close presentation window
+  document.getElementById("endBtn").addEventListener("click", async () => {
+    await invoke("close_sec_window");
+  });
+
+  // hide/show presentation window
+  document
+    .getElementById("visibilityToggle")
+    .addEventListener("click", async (event) => {
+      if (visibilityToggle) {
+        //toggle -> off
+        visibilityToggle = false;
+        event.currentTarget.classList.add("is-active");
+        await invoke("hide_sec_window");
+      } else {
+        //toggle -> on
+        visibilityToggle = true;
+        event.currentTarget.classList.remove("is-active");
+        await invoke("show_sec_window");
+      }
+    });
+
+  // blackout
   document.getElementById("blackoutBtn").addEventListener("click", () => {
     unmarkPlayingAll();
 
@@ -259,6 +270,14 @@ window.addEventListener("DOMContentLoaded", () => {
     emit("black_out");
   });
 
+  // transition
+  document.getElementById("transitionToggle").addEventListener("click", () => {
+    transitionToggleFn();
+  });
+  //#endregion
+
+  //#region edit btns
+  // delete grid
   document.getElementById("deleteBtn").addEventListener("click", () => {
     if (!editToggle) {
       return;
@@ -273,6 +292,7 @@ window.addEventListener("DOMContentLoaded", () => {
     auto_save();
   });
 
+  // remove empty grids
   document.getElementById("templateDeleteBtn").addEventListener("click", () => {
     if (!editToggle) {
       return;
@@ -294,6 +314,7 @@ window.addEventListener("DOMContentLoaded", () => {
     auto_save();
   });
 
+  // rename
   document.getElementById("renameBtn").addEventListener("click", () => {
     if (!editToggle) {
       return;
@@ -317,43 +338,49 @@ window.addEventListener("DOMContentLoaded", () => {
     auto_save();
   });
 
-  document.getElementById("endBtn").addEventListener("click", async () => {
-    await invoke("close_sec_window");
+  // create more templates
+  document.getElementById("templateBtn").addEventListener("click", () => {
+    if (!editToggle) {
+      return;
+    }
+    addGridTemplates(5);
+    addGhostMoveTemplate();
+  });
+  //#endregion
+
+  //#region utility btns
+  // loop video
+  document.getElementById("loopBtn").addEventListener("click", (event) => {
+    isLoopedToggleFn(event);
   });
 
-  document.getElementById("loopBtn").addEventListener("click",(event)=>{
-    isLoopedToggleFn(event);
-  })
+  //Todo transition fader!
+  //#endregion
 
+  //#region asset btns
+  // open project folder
   document
     .getElementById("projectFolderBtn")
     .addEventListener("click", async () => {
       await invoke("open_project_folder");
     });
 
-  document
-    .getElementById("visibilityToggle")
-    .addEventListener("click", async (event) => {
-      if (visibilityToggle) {
-        //toggle -> off
-        visibilityToggle = false;
-        event.currentTarget.classList.add("is-active");
-        await invoke("hide_sec_window");
-      } else {
-        //toggle -> on
-        visibilityToggle = true;
-        event.currentTarget.classList.remove("is-active");
-        await invoke("show_sec_window");
-      }
+  // load assets
+  document.getElementById("loadBtn").addEventListener("click", async () => {
+    document.getElementById("container-left").replaceChildren();
+    const result = await invoke("load_asset_names");
+
+    result.forEach((name) => {
+      addAssetsToGridDisplay(name);
     });
-
-  document.getElementById("transitionToggle").addEventListener("click", () => {
-    transitionToggleFn();
   });
 
-  document.getElementById("closeBtn").addEventListener("click", async () => {
-    await invoke("close_main_window");
+  // add color
+  document.getElementById("colorBtn").addEventListener("click", () => {
+    const input = document.getElementById("colorInput");
+    addColorToGridDisplay(input.value);
   });
+  //#endregion
 });
 
 window.addEventListener("contextmenu", (e) => e.preventDefault());
@@ -365,16 +392,19 @@ window.addEventListener("keydown", async (event) => {
   }
 
   switch (event.key) {
+    // move selection right
     case "ArrowRight":
       event.preventDefault();
       keyRightArrow();
       updateLoopBtn();
       break;
+    // move selection left
     case "ArrowLeft":
       event.preventDefault();
       keyLeftArrow();
       updateLoopBtn();
       break;
+    // blackout [space]
     case " ":
       event.preventDefault();
       unmarkPlayingAll();
@@ -393,19 +423,24 @@ window.addEventListener("keydown", async (event) => {
         sendMedia(path, false);
       }
       break;
+    // display media
     case "Enter":
       event.preventDefault();
       keyEnter();
       break;
+    // toggle edit-/presentation-mode
     case "e":
       editToggleFn();
       break;
+    // toggle transitions
     case "t":
       transitionToggleFn();
       break;
+    // toggle asset-view
     case "f":
       assetToggleFn();
       break;
+    // (re-)load assets
     case "r":
       document.getElementById("container-left").replaceChildren();
       const result = await invoke("load_asset_names");
