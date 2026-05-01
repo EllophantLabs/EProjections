@@ -106,7 +106,7 @@ async fn close_start_window(app: AppHandle) {
     }
 }
 
-// #region presentation window / sec-window
+//#region presentation window / sec-window
 
 //* open presentation window */
 #[tauri::command]
@@ -163,7 +163,7 @@ async fn show_sec_window(app: AppHandle) {
     }
 }
 
-// #endregion
+//#endregion
 
 //* show/unhide main window */
 #[tauri::command]
