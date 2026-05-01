@@ -5,10 +5,14 @@
   "type": "module",
   "scripts": {
     "tauri": "tauri",
+    "dev":"npx tsc && tauri dev",
     "version": "node update-version.js && git add ."
   },
   "devDependencies": {
-    "@tauri-apps/cli": "^2"
+    "@tauri-apps/cli": "^2",
+    "@types/node": "^25.6.0",
+    "concurrently": "^9.2.1",
+    "typescript": "^6.0.3"
   },
   "dependencies": {
     "@tauri-apps/plugin-dialog": "^2.6.0",
