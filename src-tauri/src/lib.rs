@@ -1,5 +1,5 @@
-use tauri::{window, App, Manager, Window};
-use tauri::{AppHandle, Emitter, Runtime, WebviewUrl, WebviewWindowBuilder};
+use tauri::{Manager};
+use tauri::{AppHandle, Emitter, WebviewUrl, WebviewWindowBuilder};
 use tauri_plugin_dialog::DialogExt;
 use tauri_plugin_updater::UpdaterExt;
 
@@ -129,7 +129,7 @@ async fn open_window(app: AppHandle) {
             .build()
             .unwrap();
 
-    if let Some(monitor) = monitors.get(1) {
+    if let Some(_monitor) = monitors.get(1) {
         window.set_fullscreen(true).unwrap();
     } else {
         window.set_fullscreen(false).unwrap();

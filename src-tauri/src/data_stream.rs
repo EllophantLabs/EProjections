@@ -1,10 +1,7 @@
 use serde::{Deserialize, Serialize};
 use std::{
-    alloc::Layout,
-    fmt::format,
-    fs::{self, File},
-    io,
-    path::{Path, PathBuf},
+    fs::{self},
+    path::{PathBuf},
     sync::OnceLock,
 };
 use tauri::State;
@@ -90,10 +87,10 @@ pub async fn set_project_path(
     }
 }
 
-pub async fn get_project_path(state: State<'_, ProjectDir>) -> Result<String, String> {
-    let path = state.path.get().cloned().ok_or("Error")?;
-    Ok(path)
-}
+// pub async fn get_project_path(state: State<'_, ProjectDir>) -> Result<String, String> { //! unused funtion
+//     let path = state.path.get().cloned().ok_or("Error")?;
+//     Ok(path)
+// }
 
 #[tauri::command]
 pub async fn get_media_path(
