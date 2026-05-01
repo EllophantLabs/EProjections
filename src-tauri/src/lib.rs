@@ -1,4 +1,4 @@
-use tauri::{window, App, Manager};
+use tauri::{window, App, Manager, Window};
 use tauri::{AppHandle, Emitter, Runtime, WebviewUrl, WebviewWindowBuilder};
 use tauri_plugin_dialog::DialogExt;
 use tauri_plugin_updater::UpdaterExt;
@@ -17,14 +17,16 @@ use crate::data_stream::ProjectDir;
 
 // Learn more about Tauri commands at https://tauri.app/develop/calling-rust/
 
+//* search for updates */
 async fn check_for_updates(handle: AppHandle, window: tauri::WebviewWindow) {
     let updater = handle.updater().expect("Updater-Plugin nicht geladen");
 
     match updater.check().await {
+        // ok -> there is a new update!
         Ok(Some(update)) => {
             let (tx, rx) = std::sync::mpsc::channel();
 
-            // ask user!
+            // create update dialog
             handle
                 .dialog()
                 .message(format!(
@@ -42,41 +44,79 @@ async fn check_for_updates(handle: AppHandle, window: tauri::WebviewWindow) {
 
             // wait for user response!
             if rx.recv().unwrap_or(false) {
-                window.emit("start_update", true).unwrap();
+                window.emit("start_update", true).unwrap(); // lock starting window with update info!
 
                 // download and install
                 match update.download_and_install(|_, _| {}, || {}).await {
                     Ok(_) => {
                         handle.restart();
-                    },
+                    }
                     Err(e) => {
-                        eprintln!("{}",e);
-                        window.emit("start_unlock",false).unwrap();
+                        eprintln!("{}", e);
+                        window.emit("start_unlock", false).unwrap(); // starting window -> notification: download failed -> Internet?
                     }
                 }
             } else {
-                window.emit("start_update", false).unwrap();
+                window.emit("start_update", false).unwrap(); // starting window unlock -> notification: new updated aviable!
             }
         }
+        // ok -> no new updated found!
         Ok(None) => {
             println!("App ist auf dem neuesten Stand.");
-            window.emit("start_unlock",true).unwrap();
+            window.emit("start_unlock", true).unwrap(); // unlock starting window -> no
         }
+        // err -> failed to check for updated! // Internetconnection?
         Err(e) => {
             eprintln!("Fehler beim Update-Check: {}", e);
-            window.emit("start_unlock", false).unwrap();
+            window.emit("start_unlock", false).unwrap(); // starting window -> notification: check failed -> Internet?
         }
     }
 }
 
+//* window closing hook */
+fn close_windows(app: &AppHandle, label: &str) {
+    // starting window is closed!
+    if label == "starting-window" {
+        // check for main window -> close too!
+        if let Some(main_window) = app.get_webview_window("main") {
+            let is_visible = main_window.is_visible().unwrap_or(false);
+            if !is_visible {
+                println!("Main ist unsichtbar, beende App.");
+                app.exit(0);
+            } else {
+                println!("Main ist bereits offen, schließe nur Start-Fenster.");
+            }
+        } else {
+            // if there is no main
+            app.exit(0);
+        }
+    }
+
+    // main window is closed!
+    if label == "main" {
+        app.exit(0);
+    }
+}
+
+//* close starting window */
+#[tauri::command]
+async fn close_start_window(app: AppHandle) {
+    if let Some(window) = app.get_webview_window("starting-window") {
+        window.close().unwrap();
+    }
+}
+
+// #region presentation window / sec-window
+
+//* open presentation window */
 #[tauri::command]
 async fn open_window(app: AppHandle) {
-    //* search through all monitors available */
+    // search through all monitors available
     let monitors = app.available_monitors().unwrap();
     let target_monitor = monitors.get(1).unwrap_or(&monitors[0]);
     let monitor_pos = target_monitor.position();
 
-    //* create second Monitor for presentation */
+    //create second Monitor for presentation
     let window =
         WebviewWindowBuilder::new(&app, "second-window", WebviewUrl::App("SecWindow/".into()))
             .title("presentation-screen")
@@ -99,13 +139,7 @@ async fn open_window(app: AppHandle) {
     window.set_always_on_top(true).unwrap();
 }
 
-#[tauri::command]
-async fn close_start_window(app: AppHandle) {
-    if let Some(window) = app.get_webview_window("starting-window") {
-        window.close().unwrap();
-    }
-}
-
+//* close presentation window */
 #[tauri::command]
 async fn close_sec_window(app: AppHandle) {
     if let Some(window) = app.get_webview_window("second-window") {
@@ -113,6 +147,7 @@ async fn close_sec_window(app: AppHandle) {
     }
 }
 
+//* hide presentation window */
 #[tauri::command]
 async fn hide_sec_window(app: AppHandle) {
     if let Some(window) = app.get_webview_window("second-window") {
@@ -120,6 +155,7 @@ async fn hide_sec_window(app: AppHandle) {
     }
 }
 
+//* show/unhide presentation window */
 #[tauri::command]
 async fn show_sec_window(app: AppHandle) {
     if let Some(window) = app.get_webview_window("second-window") {
@@ -127,6 +163,9 @@ async fn show_sec_window(app: AppHandle) {
     }
 }
 
+// #endregion
+
+//* show/unhide main window */
 #[tauri::command]
 async fn open_main_window(app: AppHandle) {
     if let Some(window) = app.get_webview_window("main") {
@@ -136,6 +175,7 @@ async fn open_main_window(app: AppHandle) {
     }
 }
 
+//* close main window */
 #[tauri::command]
 async fn close_main_window(app: AppHandle) {
     if let Some(window) = app.get_webview_window("main") {
@@ -143,6 +183,7 @@ async fn close_main_window(app: AppHandle) {
     }
 }
 
+//* main run function */
 #[cfg_attr(mobile, tauri::mobile_entry_point)]
 pub fn run() {
     tauri::Builder::default()
@@ -154,14 +195,13 @@ pub fn run() {
             path: std::sync::OnceLock::new(),
         })
         .setup(|app| {
+            // create async handle for update checking
             let handle = app.handle().clone();
-
             tauri::async_runtime::spawn(async move {
                 if let Some(window) = handle.get_webview_window("main") {
                     check_for_updates(handle, window).await;
                 }
             });
-
             Ok(())
         })
         .invoke_handler(tauri::generate_handler![
@@ -187,31 +227,7 @@ pub fn run() {
                 let label = window.label();
                 let app = window.app_handle();
 
-                // 1. Wenn das Start-Fenster geschlossen wird
-                if label == "starting-window" {
-                    // Prüfe, ob das Hauptfenster existiert UND ob es sichtbar ist
-                    if let Some(main_window) = app.get_webview_window("main") {
-                        let is_visible = main_window.is_visible().unwrap_or(false);
-
-                        if !is_visible {
-                            // Falls Main noch unsichtbar ist -> App beenden
-                            println!("Main ist unsichtbar, beende App.");
-                            app.exit(0);
-                        } else {
-                            // Falls Main schon offen ist -> Nur Start-Fenster zu (Standard)
-                            println!("Main ist bereits offen, schließe nur Start-Fenster.");
-                        }
-                    } else {
-                        // Falls aus irgendeinem Grund kein Main-Fenster existiert
-                        app.exit(0);
-                    }
-                }
-
-                // 2. Wenn das Haupt-Fenster geschlossen wird
-                if label == "main" {
-                    // Wenn der User das Hauptfenster schließt, soll immer alles zu gehen
-                    app.exit(0);
-                }
+                close_windows(app, label);
             }
         })
         .run(tauri::generate_context!())

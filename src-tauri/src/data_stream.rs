@@ -13,6 +13,7 @@ use tauri_plugin_opener;
 pub const SAVE_FILE: &str = "saveFile.json";
 pub const MEDIA_FOLDER: &str = "Media";
 
+//* data structs */
 #[derive(Serialize, Deserialize, Debug)]
 pub struct Media {
     url: String,
@@ -32,6 +33,41 @@ pub struct ProjectDir {
     pub path: OnceLock<String>,
 }
 
+//* create and open project */
+#[tauri::command]
+pub async fn create_new_project(
+    state: State<'_, ProjectDir>,
+    new_path: String,
+) -> Result<(), String> {
+    let mut base = PathBuf::from(&new_path);
+    let mut file_path = base.clone(); // for file path
+
+    // 1. create project and media dir
+    base.push(MEDIA_FOLDER);
+    fs::create_dir_all(&base).map_err(|e: std::io::Error| e.to_string())?; // create project and media dir
+
+    // 2. create json file
+    file_path.push(SAVE_FILE);
+    fs::write(&file_path, "{}").map_err(|e: std::io::Error| e.to_string())?;
+
+    match state.path.set(new_path) {
+        Ok(_) => Ok(()),
+        Err(_) => Err("Der Pfad wurde bereits gesetzt und kann nicht geändert werden.".to_string()),
+    }
+}
+
+#[tauri::command]
+pub async fn open_project_folder(state: State<'_, ProjectDir>) -> Result<(), String> {
+    let project_dir = state.path.get().cloned().ok_or("Error")?;
+    let mut path = PathBuf::from(&project_dir);
+    path.push(MEDIA_FOLDER);
+
+    tauri_plugin_opener::open_path(&path, None::<String>).map_err(|e| e.to_string())?;
+
+    Ok(())
+}
+
+//* project paths */
 #[tauri::command]
 pub async fn set_project_path(
     state: State<'_, ProjectDir>,
@@ -56,7 +92,6 @@ pub async fn set_project_path(
 
 pub async fn get_project_path(state: State<'_, ProjectDir>) -> Result<String, String> {
     let path = state.path.get().cloned().ok_or("Error")?;
-
     Ok(path)
 }
 
@@ -73,30 +108,7 @@ pub async fn get_media_path(
     Ok(path.to_string_lossy().into_owned())
 }
 
-#[tauri::command]
-pub async fn create_new_project(
-    state: State<'_, ProjectDir>,
-    new_path: String,
-) -> Result<(), String> {
-    let mut base = PathBuf::from(&new_path);
-    let mut file_path = base.clone(); // for file path
-
-    // 1. create project and media dir
-    base.push(MEDIA_FOLDER);
-    fs::create_dir_all(&base).map_err(|e: std::io::Error| e.to_string())?; // create project and media dir
-
-    // 2. create json file
-    file_path.push(SAVE_FILE);
-    fs::write(&file_path, "{}").map_err(|e: std::io::Error| e.to_string())?;
-
-    match state.path.set(new_path) {
-        Ok(_) => Ok(()),
-        Err(_) => Err("Der Pfad wurde bereits gesetzt und kann nicht geändert werden.".to_string()),
-    }
-}
-
-// layout ist ein Array mit vielen "MediaElemen"-Elementen,
-// fürs laden wird in einem Array aus "Media"-Elementen nach geschlagen
+//* loading assets and files */
 #[tauri::command]
 pub async fn load_asset_names(state: State<'_, ProjectDir>) -> Result<Vec<String>, String> {
     let mut names: Vec<String> = Vec::new();
@@ -135,6 +147,7 @@ pub async fn get_file_src(state: State<'_, ProjectDir>, file_name: &str) -> Resu
     Ok(path_str)
 }
 
+//* autosave */
 #[tauri::command]
 pub async fn save_layout(state: State<'_, ProjectDir>, layout: Vec<Media>) -> Result<(), String> {
     let json_data = serde_json::to_string_pretty(&layout).map_err(|e| e.to_string())?;
@@ -191,15 +204,4 @@ pub async fn load_layout(state: State<'_, ProjectDir>) -> Result<Vec<Media>, Str
     let layout: Vec<Media> = serde_json::from_str(&json_data).map_err(|e| e.to_string())?;
 
     Ok(layout)
-}
-
-#[tauri::command]
-pub async fn open_project_folder(state: State<'_, ProjectDir>) -> Result<(), String> {
-    let project_dir = state.path.get().cloned().ok_or("Error")?;
-    let mut path = PathBuf::from(&project_dir);
-    path.push(MEDIA_FOLDER);
-
-    tauri_plugin_opener::open_path(&path, None::<String>).map_err(|e| e.to_string())?;
-
-    Ok(())
 }
