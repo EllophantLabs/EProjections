@@ -1,7 +1,7 @@
 use serde::{Deserialize, Serialize};
 use std::{
     fs::{self},
-    path::{PathBuf},
+    path::PathBuf,
     sync::OnceLock,
 };
 use tauri::State;

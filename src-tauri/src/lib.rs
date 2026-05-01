@@ -1,4 +1,4 @@
-use tauri::{Manager};
+use tauri::Manager;
 use tauri::{AppHandle, Emitter, WebviewUrl, WebviewWindowBuilder};
 use tauri_plugin_dialog::DialogExt;
 use tauri_plugin_updater::UpdaterExt;
