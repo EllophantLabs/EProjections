@@ -1,3 +1,3 @@
-window.addEventListener("DOMContentLoaded",()=>{
+window.addEventListener("DOMContentLoaded", () => {
     alert("Mega transitions werden hier erstellt! :)");
 })
