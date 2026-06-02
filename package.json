@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "tauri": "tauri",
-    "dev":"npx tsc && tauri dev",
+    "dev": "npx tsc && tauri dev",
     "version": "node update-version.js && git add ."
   },
   "devDependencies": {
