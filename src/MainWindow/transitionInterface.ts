@@ -14,20 +14,14 @@ export function preloadColor(src: string) {
     emit("preloadColor", { src: src });
 }
 
-export function transitionCMD(src: string, transtionDuration: number, transition: boolean) {
-    emit("transitionCMD", { src: src, transitionDuration: transtionDuration, transition: transition });
+export function transitionCMD(src: string, transtionDuration: number, transition: boolean, isLooped: boolean) {
+    emit("transitionCMD", { src: src, transitionDuration: transtionDuration, transition: transition, isLooped: isLooped });
 }
 
-export function blackOut(transition: boolean) {
-    emit("blackOut", { transition: transition });
+export function blackoutCMD(transition: boolean) {
+    emit("blackoutCMD", { transition: transition });
 }
 
-export function updateIsLooped(src:string, isLooped: boolean)
-{
-    emit("updateIsLooped",{src:src, isLooped: isLooped});
-}
-
-export function updateDuration(src:string, transitionDuration: number)
-{
-    emit("updateIsLooped",{src:src, transitionDuration: transitionDuration});
+export function updateIsLooped(src: string, isLooped: boolean) {
+    emit("updateIsLooped", { src: src, isLooped: isLooped });
 }
