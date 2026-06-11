@@ -2,7 +2,7 @@ import { transitionToggle, editToggle } from "./script.js";
 import { cue } from "../SecWindow/script.js";
 
 // new typescript interface
-import { preloadMedia } from "./transitionInterface.js";
+import { preloadMedia, transitionCMD } from "./transitionInterface.js";
 
 const { invoke } = window.__TAURI__.core;
 const { convertFileSrc } = window.__TAURI__.core;
@@ -131,10 +131,10 @@ export async function handleMediaClick(event, name) {
       markPlaying(element);
       // trigger element playing
       if (transitionToggle) {
-        emit("trigger_swap");
+        transitionCMD(element.parentElement.src, 2000, true, element.parentElement.isLooped); // src, transitionDuration, transition, isLooped
         return;
       } else {
-        emit("trigger_swap_cut");
+        transitionCMD(element.parentElement.src, 2000, false, element.parentElement.isLooped); // src, transitionDuration, transition, isLooped
         return;
       }
     }
@@ -172,10 +172,10 @@ export function handleColorClick(event, color) {
       markPlaying(element);
       // trigger element playing
       if (transitionToggle) {
-        emit("trigger_swap");
+        transitionCMD(element.parentElement.src, 2000, true, element.parentElement.isLooped); // src, transitionDuration, transition, isLooped
         return;
       } else {
-        emit("trigger_swap_cut");
+        transitionCMD(element.parentElement.src, 2000, false, element.isLooped); // src, transitionDuration, transition, isLooped
         return;
       }
     }
@@ -252,10 +252,10 @@ export function playingElement(element) {
 
   // trigger element playing
   if (transitionToggle) {
-    emit("trigger_swap");
+    transitionCMD(element.parentElement.src, 2000, true, element.parentElement.isLooped); // src, transitionDuration, transition, isLooped
     return;
   } else {
-    emit("trigger_swap_cut");
+    transitionCMD(element.parentElement.src, 2000, false, element.parentElement.isLooped); // src, transitionDuration, transition, isLooped
     return;
   }
 }

@@ -16,6 +16,7 @@ export function preloadColor(src: string) {
 }
 
 export function transitionCMD(src: string, transtionDuration: number, transition: boolean, isLooped: boolean) {
+    console.log(`TransitionCMD src: ${src}, transitionDuration: ${transtionDuration}, transition: ${transition}, isLooped: ${isLooped}`);
     emit("transitionCMD", { src: src, transitionDuration: transtionDuration, transition: transition, isLooped: isLooped });
 }
 
