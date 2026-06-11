@@ -28,7 +28,7 @@ import {
 } from "./ui_grid_logic.js";
 import { keyRightArrow, keyLeftArrow, keyEnter } from "./keyboard_logic.js";
 
-import { blackoutCMD } from "./transitionInterface.js";
+import { blackoutCMD, updateIsLooped } from "./transitionInterface.js";
 
 // global variables
 export let editToggle = false;
@@ -197,7 +197,8 @@ function isLoopedToggleFn(event) {
   const btn = event.currentTarget;
   parent.isLooped = !parent.isLooped;
 
-  cue.payload.isLooped = parent.isLooped; //* Update cue in ../SecWindow/script.js !
+  // cue.payload.isLooped = parent.isLooped; //* Update cue in ../SecWindow/script.js !
+  updateIsLooped(parent.src, parent.isLooped);
   console.log("updated loop cue!");
 
   if (parent.isLooped) {

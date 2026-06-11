@@ -22,5 +22,6 @@ export function blackoutCMD(transition: boolean) {
 }
 
 export function updateIsLooped(src: string, isLooped: boolean) {
+    console.log(`updateIsLooped src: ${src}, isLooped: ${isLooped}`);
     emit("updateIsLooped", { src: src, isLooped: isLooped });
 }

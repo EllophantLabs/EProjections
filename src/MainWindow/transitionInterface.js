@@ -12,5 +12,6 @@ export function blackoutCMD(transition) {
     emit("blackoutCMD", { transition: transition });
 }
 export function updateIsLooped(src, isLooped) {
+    console.log(`updateIsLooped src: ${src}, isLooped: ${isLooped}`);
     emit("updateIsLooped", { src: src, isLooped: isLooped });
 }
