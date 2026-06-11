@@ -1,6 +1,6 @@
 const { listen } = window.__TAURI__.event;
 // active src
-export let currentSrc = "";
+export let currentElement = null;
 export let currentLooped = false;
 export let currentDuration = 0;
 let isMainTransition = false;
@@ -9,11 +9,8 @@ const srcCue = [];
 listen("preloadMedia", (event) => {
     // preload();
 });
-listen("preloadColor", (event) => {
-    // preload();
-});
 listen("transitionCMD", (event) => {
-    if (currentSrc == event.payload.src) {
+    if (currentElement == event.payload.element) {
         return;
     }
     currentLooped = event.payload.isLooped;
@@ -28,12 +25,12 @@ listen("transitionCMD", (event) => {
         // secTransition();
         return;
     }
-    srcCue.push(event.payload.src);
+    srcCue.push(event.payload.element);
 });
 listen("balackoutCMD", (event) => {
 });
 listen("updateIsLooped", (event) => {
-    if (currentSrc != event.payload.src) {
+    if (currentElement != event.payload.element) {
         return;
     }
     currentLooped = event.payload.isLooped;

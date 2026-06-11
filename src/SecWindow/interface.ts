@@ -1,7 +1,7 @@
 const { listen } = window.__TAURI__.event;
 
 // active src
-export let currentSrc: string = "";
+export let currentElement: HTMLElement | null = null;
 export let currentLooped: boolean = false;
 export let currentDuration: number = 0;
 
@@ -10,16 +10,12 @@ let isSecTransition: boolean = false;
 
 const srcCue = [];
 
-listen("preloadMedia", (event: { payload: { src: string, isVideo: boolean, isColor: boolean, isLooped: boolean } }) => {
+listen("preloadMedia", (event: { payload: { element: HTMLElement, isVideo: boolean, isColor: boolean, isLooped: boolean } }) => {
     // preload();
 });
 
-listen("preloadColor", (event: { payload: { src: string } }) => {
-    // preload();
-});
-
-listen("transitionCMD", (event: { payload: { src: string, transitionDuration: number, transition: boolean, isLooped: boolean } }) => {
-    if (currentSrc == event.payload.src) {
+listen("transitionCMD", (event: { payload: { element: HTMLElement, transitionDuration: number, transition: boolean, isLooped: boolean } }) => {
+    if (currentElement == event.payload.element) {
         return;
     }
 
@@ -38,15 +34,15 @@ listen("transitionCMD", (event: { payload: { src: string, transitionDuration: nu
         return;
     }
 
-    srcCue.push(event.payload.src);
+    srcCue.push(event.payload.element);
 });
 
 listen("balackoutCMD", (event: { payload: { transition: boolean } }) => {
 
 });
 
-listen("updateIsLooped", (event: { payload: { src: string, isLooped: boolean } }) => {
-    if (currentSrc != event.payload.src) {
+listen("updateIsLooped", (event: { payload: { element: HTMLElement, isLooped: boolean } }) => {
+    if (currentElement != event.payload.element) {
         return;
     }
     currentLooped = event.payload.isLooped;
