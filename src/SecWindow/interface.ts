@@ -10,7 +10,7 @@ let isSecTransition: boolean = false;
 
 const srcCue = [];
 
-listen("preloadMedia", (event: { payload: { src: string, isVideo: boolean, isLooped: boolean } }) => {
+listen("preloadMedia", (event: { payload: { src: string, isVideo: boolean, isColor: boolean, isLooped: boolean } }) => {
     // preload();
 });
 

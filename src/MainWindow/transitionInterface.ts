@@ -6,8 +6,9 @@ declare global {
 
 const { emit } = window.__TAURI__.event;
 
-export function preloadMedia(src: string, isVideo: boolean, isLooped: boolean) {
-    emit("preloadMedia", { src: src, isVideo: isVideo, isLooped: isLooped });
+export function preloadMedia(src: string, isVideo: boolean, isColor: boolean, isLooped: boolean) {
+    console.log(`Preload media src: ${src}, isVideo: ${isVideo}, isColor: ${isColor} isLooped: ${isLooped}`);
+    emit("preloadMedia", { src: src, isVideo: isVideo, isColor: isColor, isLooped: isLooped });
 }
 
 export function preloadColor(src: string) {

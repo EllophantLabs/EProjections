@@ -1,6 +1,9 @@
 import { transitionToggle, editToggle } from "./script.js";
 import { cue } from "../SecWindow/script.js";
 
+// new typescript interface
+import { preloadMedia } from "./transitionInterface.js";
+
 const { invoke } = window.__TAURI__.core;
 const { convertFileSrc } = window.__TAURI__.core;
 const { open } = window.__TAURI__.dialog;
@@ -8,11 +11,7 @@ const { emit } = window.__TAURI__.event;
 
 export async function sendMedia(path, is_color, element) {
   if (is_color) {
-    await emit("preload_media", {
-      url: path, // color
-      isVideo: false,
-      isColor: true,
-    });
+    preloadMedia(path, false, true, false); //isVideo, isColor, isLooped
     return;
   }
 
@@ -30,12 +29,7 @@ export async function sendMedia(path, is_color, element) {
   }
 
   const assetUrl = convertFileSrc(path);
-  await emit("preload_media", {
-    url: assetUrl,
-    isVideo: isVideo,
-    isColor: false,
-    isLooped: isLooped,
-  });
+  preloadMedia(path, isVideo, false, isLooped); // isVideo, isColor, isLooped
 }
 
 function isEditSelected(element) {
