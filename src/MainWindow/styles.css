@@ -30,6 +30,16 @@ html {
   min-height: 0;
 }
 
+.lower-box {
+  height: 10%;
+  background-color: var(--color-background);
+  color: var(--color-text);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 0;
+}
+
 #mainBtns {
   background-color: var(--color-background);
   color: var(--color-text);
