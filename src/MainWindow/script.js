@@ -28,6 +28,8 @@ import {
 } from "./ui_grid_logic.js";
 import { keyRightArrow, keyLeftArrow, keyEnter } from "./keyboard_logic.js";
 
+import { blackoutCMD } from "./transitionInterface.js";
+
 // global variables
 export let editToggle = false;
 let assetToggle = true;
@@ -263,11 +265,11 @@ window.addEventListener("DOMContentLoaded", () => {
     unmarkPlayingAll();
 
     if (transitionToggle) {
-      emit("black_out_fade");
+      blackoutCMD(true);
       return;
     }
 
-    emit("black_out");
+    blackoutCMD(false);
   });
 
   // transition
@@ -409,10 +411,10 @@ window.addEventListener("keydown", async (event) => {
       event.preventDefault();
       unmarkPlayingAll();
       if (transitionToggle) {
-        emit("black_out_fade");
+        blackoutCMD(true);
         return;
       }
-      emit("black_out");
+      blackoutCMD(false);
       const elements = document.querySelectorAll(".displaySelected"); // is_color
       const element = elements[0];
       const parent = element.parentElement;

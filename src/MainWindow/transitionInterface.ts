@@ -21,6 +21,7 @@ export function transitionCMD(src: string, transtionDuration: number, transition
 }
 
 export function blackoutCMD(transition: boolean) {
+    console.log(`blackoutCMD transition: ${transition}`);
     emit("blackoutCMD", { transition: transition });
 }
 
