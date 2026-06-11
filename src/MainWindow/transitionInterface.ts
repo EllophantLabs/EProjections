@@ -11,10 +11,6 @@ export function preloadMedia(src: string, isVideo: boolean, isColor: boolean, is
     emit("preloadMedia", { src: src, isVideo: isVideo, isColor: isColor, isLooped: isLooped });
 }
 
-export function preloadColor(src: string) {
-    emit("preloadColor", { src: src });
-}
-
 export function transitionCMD(src: string, transtionDuration: number, transition: boolean, isLooped: boolean) {
     console.log(`TransitionCMD src: ${src}, transitionDuration: ${transtionDuration}, transition: ${transition}, isLooped: ${isLooped}`);
     emit("transitionCMD", { src: src, transitionDuration: transtionDuration, transition: transition, isLooped: isLooped });
