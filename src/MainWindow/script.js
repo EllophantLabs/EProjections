@@ -452,5 +452,73 @@ window.addEventListener("keydown", async (event) => {
         addAssetsToGridDisplay(name);
       });
       break;
+    // delete selected item
+    case "Delete":
+      if (!editToggle) {
+        return;
+      }
+
+      const child = document.querySelector(".editSelected");
+      const id = child.parentElement.id;
+      layout.splice(layout.indexOf(id), 1);
+      child.parentElement.parentElement.remove();
+      editDeselectAll();
+      addGhostMoveTemplate();
+      auto_save();
+      break;
+
+    // add templates
+    case "+":
+      if (!editToggle) {
+        return;
+      }
+
+      addGridTemplates(5);
+      addGhostMoveTemplate();
+      break;
+
+    // toggle visibility
+    case "h":
+      if (visibilityToggle) {
+        //toggle -> off
+        visibilityToggle = false;
+        const btn = document.getElementById("visibilityToggle");
+        btn.classList.add("is-active");
+        await invoke("hide_sec_window");
+      } else {
+        //toggle -> on
+        visibilityToggle = true;
+        const btn = document.getElementById("visibilityToggle");
+        btn.classList.remove("is-active");
+        await invoke("show_sec_window");
+      }
+      break;
+
+    // open directory
+    case "d":
+      await invoke("open_project_folder");
+      break;
+
+    // clear workingspace
+    case "l":
+      if (!editToggle) {
+        return;
+      }
+      const newLayout = layout.filter((id) => {
+        const element = document.getElementById(id);
+
+        if (element.empty) {
+          element.parentElement.remove();
+          return false;
+        }
+        return true;
+      });
+
+      layout.length = 0;
+      layout.push(...newLayout);
+
+      addGhostMoveTemplate();
+      auto_save();
+      break;
   }
 });

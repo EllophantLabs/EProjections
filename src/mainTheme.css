@@ -7,8 +7,6 @@
   --text: oklch(0.96 0 299);
   --text-muted: oklch(0.76 0 299);
   --highlight: oklch(0.5 0 299);
-  --border: oklch(0.4 0 299);
-  --border-muted: oklch(0.3 0 299);
   --primary-light: oklch(0.55 0.1 299);
   --primary: oklch(0.5 0.1 299);
   --secondary: oklch(0.5 0.12382 145.19);
