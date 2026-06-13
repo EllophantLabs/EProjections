@@ -2,6 +2,12 @@
 
 @import "../mainTheme.css";
 
+/* remove focus ring */
+input:focus,
+button:focus {
+  outline: none;
+}
+
 body,
 html {
   margin: 0;
@@ -22,7 +28,7 @@ html {
 
 .top-box {
   height: 10%;
-  background-color: var(--color-background);
+  background-color: var(--bg);
   color: var(--color-text);
   display: flex;
   align-items: center;
@@ -32,7 +38,7 @@ html {
 
 .lower-box {
   height: 10%;
-  background-color: var(--color-background);
+  background-color: var(--bg);
   color: var(--color-text);
   display: flex;
   align-items: center;
@@ -41,10 +47,11 @@ html {
 }
 
 #mainBtns {
-  background-color: var(--color-background);
   color: var(--color-text);
   width: 100%;
   height: 100%;
+  min-width: fit-content;
+  min-height: fit-content;
 
   flex: 3;
   display: flex;
@@ -54,43 +61,58 @@ html {
   box-sizing: border-box;
 }
 
+.lable {
+  color: var(--text-muted);
+}
+
+.indicatorLable {
+  /* style="font-weight: bold; color: var(--color-accent)" */
+  font-weight: bold;
+  color: var(--primary);
+}
+
 .btns {
-  color: var(--color-text);
-  background-color: var(--color-background-contrast);
-  transition: 0.5s;
+  color: var(--text-muted);
+  background-color: var(--bg-light);
+  transition: all 0.2s ease;
   width: 11%;
+
+  min-width: fit-content;
+  min-height: fit-content;
 
   border-radius: 4px;
   border-color: transparent;
 }
 
-.btns.is-active {
-  color: var(--color-text);
-  background-color: var(--color-secondary);
-  transition: 0.5s;
-}
-
-.btns.is-active:hover {
-  /* background-color: var(--color-background-contrast); */
-  color: var(--color-accent);
-}
-
-.btns.is-active:active {
-  background-color: var(--color-accent);
-}
-
 .btns:hover {
-  /* background-color: var(--color-accent); */
-  color: var(--color-accent);
-  border-color: var(--color-accent);
+  color: var(--text);
+  background-color: var(--primary);
 }
 
 .btns:active {
-  background-color: var(--color-accent);
+  color: var(--text-muted);
+  background-color: var(--primary);
+  transition: 0s;
+}
+
+.btns.is-active {
+  color: var(--text-muted);
+  background-color: var(--primary-light);
+}
+
+.btns.is-active:hover {
+  color: var(--text);
+  background-color: var(--primary);
+}
+
+.btns.is-active:active {
+  color: var(--text-muted);
+  background-color: var(--primary-light);
+  transition: 0s;
 }
 
 .btn-menus {
-  background-color: var(--color-background);
+  background-color: var(--bg);
   color: var(--color-text);
   width: 100%;
   height: 100%;
@@ -102,6 +124,14 @@ html {
   padding: 0 5%;
   gap: 2%;
   box-sizing: border-box;
+
+  transition: all 0.2s ease;
+}
+
+.hidden-btn-menus {
+  display: none;
+  width: 0;
+  height: 0;
 }
 
 .hidden-looped-btn {
@@ -112,44 +142,45 @@ html {
 }
 
 .setting-btns {
-  color: var(--color-text);
-  background-color: var(--color-background-contrast);
-  transition: 0.5s;
+  color: var(--text-muted);
+  background-color: var(--bg-light);
   width: 10%;
+  min-width: fit-content;
+  min-height: fit-content;
+  max-width: max-content;
+  max-height: max-content;
 
   border-radius: 4px;
   border-color: transparent;
+
+  transition: all 0.2s ease;
 }
 
 .setting-btns:hover {
-  /* background-color: var(--color-accent); */
-  color: var(--color-accent);
-  border-color: var(--color-accent);
+  color: var(--text);
+  background-color: var(--primary);
 }
 
 .setting-btns:active {
-  background-color: var(--color-accent);
+  color: var(--text-muted);
+  background-color: var(--primary-light);
+  transition: 0s;
 }
 
 .setting-btns.is-active {
-  color: var(--color-text);
-  background-color: var(--color-secondary);
-  transition: 0.5s;
+  color: var(--text-muted);
+  background-color: var(--primary);
 }
 
 .setting-btns.is-active:hover {
-  /* background-color: var(--color-background-contrast); */
-  color: var(--color-accent);
+  color: var(--text);
+  background-color: var(--primary);
 }
 
 .setting-btns.is-active:active {
-  background-color: var(--color-accent);
-}
-
-.hidden-btn-menus {
-  display: none;
-  width: 0;
-  height: 0;
+  color: var(--text-muted);
+  background-color: var(--primary-light);
+  transition: 0s;
 }
 
 .bottom-area {
@@ -167,29 +198,45 @@ html {
   flex: 1;
   overflow-y: scroll;
   scrollbar-width: thin;
-  scrollbar-color: var(--color-background-contrast) transparent;
 }
 /* left */
 .box:nth-child(1) {
-  background-color: var(--color-background);
+  background-color: var(--bg-ldark);
   color: var(--color-text);
-  flex: 3;
-  flex-direction: column;
-  align-items: stretch;
-  justify-content: flex-start;
+  scrollbar-color: var(--bg-light) transparent;
+  width: 30vw;
+  flex-grow: 0;
+  flex-shrink: 0;
+  flex-basis: auto !important;
+
+  display: grid;
+  grid-auto-flow: row;
+  grid-auto-rows: max-content;
+  justify-content: stretch;
+  justify-items: stretch;
+
+  overflow-x: hidden;
+  overflow-y: hidden;
+
+  resize: horizontal;
+  min-width: 10vw;
+  max-width: 60vw;
 }
 /* right */
 .box:nth-child(2) {
-  background-color: var(--color-background);
+  background-color: var(--bg-dark);
   color: var(--color-text);
-  flex: 7;
+  scrollbar-color: var(--bg) transparent;
+
+  flex: 1;
   flex-direction: column;
   align-items: stretch;
   justify-content: flex-start;
+
+  min-width: 0;
 }
 
 #leftUpperContainer {
-  background-color: var(--color-background);
   width: 100%;
   height: 5%;
   display: flex;
@@ -226,8 +273,8 @@ html {
   aspect-ratio: 1 / 1;
   grid-column: span 2;
 
-  background-color: var(--color-background-contrast);
-  color: var(--color-text);
+  background-color: var(--bg-light);
+  color: var(--text-muted);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -238,6 +285,12 @@ html {
   flex-direction: column;
   overflow: hidden;
   cursor: grab;
+  transition: all 0.2s ease;
+}
+
+.grid-box:hover {
+  background-color: var(--bg-lighter);
+  color: var(--text);
 }
 
 .grid-box span,
@@ -251,8 +304,8 @@ html {
 }
 
 .grid-box-content {
-  background-color: var(--color-background-contrast);
-  color: var(--color-text);
+  background-color: var(--bg);
+  color: var(--text-muted);
   font-family:
     "Lucida Sans", "Lucida Sans Regular", "Lucida Grande",
     "Lucida Sans Unicode", Geneva, Verdana, sans-serif;
@@ -271,18 +324,28 @@ html {
 
   width: 100%;
   height: 100%;
+
+  transition: all 0.2s ease;
+}
+
+.grid-box-content:hover {
+  background-color: var(--bg-light);
+  color: var(--text);
 }
 
 .grid-box-content.displaySelected {
-  background-color: var(--color-accent);
+  color: var(--text);
+  background-color: var(--secondary);
 }
 
 .grid-box-content.playing {
-  background-color: var(--color-primary);
+  color: var(--text);
+  background-color: var(--primary);
 }
 
 .grid-box-content.editSelected {
-  background-color: var(--color-accent);
+  color: var(--text);
+  background-color: var(--secondary);
 }
 
 .grid-box-content span,
@@ -319,11 +382,16 @@ html {
   /* Keine Grid-Regeln mehr! */
   flex: 1; /* Nimmt 1 Teil des Platzes */
   height: auto;
-  background-color: var(--color-background-contrast);
+  background-color: var(--bg);
   border-radius: 8px;
   display: flex;
   align-items: center;
   justify-content: center;
+  transition: all 0.2s ease;
+}
+
+.move-template:hover {
+  background-color: var(--bg-light);
 }
 
 .ghost-move-template {
@@ -342,58 +410,19 @@ html {
   /* Keine Grid-Regeln mehr! */
   flex: 2; /* Nimmt 2 Teile des Platzes (doppelt so breit wie grün) */
   aspect-ratio: 1 / 1; /* Erzeugt die quadratische Höhe */
-  background-color: var(--color-background-contrast);
+  background-color: var(--bg);
   border-radius: 8px;
   display: flex;
   align-items: center;
   justify-content: center;
+  transition: all 0.2s ease;
 }
 
-.faderContainer {
-  padding: 40px 0;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-
-  /* Da der Fader vertikal ist, steuert die Höhe nun die Gesamtlänge! */
-  height: 400px;
+.template-grid-box:hover {
+  background-color: var(--bg-light);
 }
 
-.fader {
-  -webkit-appearance: none;
-  appearance: none;
-
-  /* 1. Der magische CSS-Schlüssel für Vertikalität */
-  writing-mode: vertical-lr;
-  direction: rtl; /* Dreht den Regler um, sodass "min" unten und "max" oben ist */
-
-  /* 2. Maße anpassen (Breite ist jetzt die Dicke des Balkens) */
-  width: 16px; /* Dicke des vertikalen Balkens */
-  height: 100%; /* Nutzt die vollen 400px des Containers als Länge */
-  background: var(--color-background-contrast);
-  border-radius: 8px;
-  outline: none;
-}
-
-/* 3. Der Knopf bleibt wie gewohnt rund und farbig */
-.fader::-webkit-slider-thumb {
-  -webkit-appearance: none;
-  appearance: none;
-  width: 30px;
-  height: 30px;
-  border-radius: 20%;
-  padding-left: 5%;
-  padding-right: 5%;
-  background: var(--color-accent); /* Dein roter Knopf */
-  cursor: pointer;
-  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.2);
-  transition:
-    background 0.15s,
-    transform 0.1s;
-}
-
-/* Hover-Effekt bleibt gleich */
-.fader::-webkit-slider-thumb:hover {
-  background: var(--color-secondary);
-  transform: scale(1.05);
+#colorInput {
+  min-width: 50px;
+  min-height: 33px;
 }
