@@ -105,6 +105,7 @@ html {
 }
 
 .hidden-looped-btn {
+  /* visibility: hidden; */
   display: none;
   width: 0;
   height: 0;
@@ -346,4 +347,53 @@ html {
   display: flex;
   align-items: center;
   justify-content: center;
+}
+
+.faderContainer {
+  padding: 40px 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  /* Da der Fader vertikal ist, steuert die Höhe nun die Gesamtlänge! */
+  height: 400px;
+}
+
+.fader {
+  -webkit-appearance: none;
+  appearance: none;
+
+  /* 1. Der magische CSS-Schlüssel für Vertikalität */
+  writing-mode: vertical-lr;
+  direction: rtl; /* Dreht den Regler um, sodass "min" unten und "max" oben ist */
+
+  /* 2. Maße anpassen (Breite ist jetzt die Dicke des Balkens) */
+  width: 16px; /* Dicke des vertikalen Balkens */
+  height: 100%; /* Nutzt die vollen 400px des Containers als Länge */
+  background: var(--color-background-contrast);
+  border-radius: 8px;
+  outline: none;
+}
+
+/* 3. Der Knopf bleibt wie gewohnt rund und farbig */
+.fader::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 30px;
+  height: 30px;
+  border-radius: 20%;
+  padding-left: 5%;
+  padding-right: 5%;
+  background: var(--color-accent); /* Dein roter Knopf */
+  cursor: pointer;
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.2);
+  transition:
+    background 0.15s,
+    transform 0.1s;
+}
+
+/* Hover-Effekt bleibt gleich */
+.fader::-webkit-slider-thumb:hover {
+  background: var(--color-secondary);
+  transform: scale(1.05);
 }
