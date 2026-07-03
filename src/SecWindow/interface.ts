@@ -11,10 +11,12 @@ let isSecTransition: boolean = false;
 const srcCue = [];
 
 listen("preloadMedia", (event: { payload: { element: HTMLElement, isVideo: boolean, isColor: boolean, isLooped: boolean } }) => {
+    console.log("preloadMedia");
     // preload();
 });
 
 listen("transitionCMD", (event: { payload: { element: HTMLElement, transitionDuration: number, transition: boolean, isLooped: boolean } }) => {
+    console.log("transitionCMD");
     if (currentElement == event.payload.element) {
         return;
     }
@@ -37,11 +39,12 @@ listen("transitionCMD", (event: { payload: { element: HTMLElement, transitionDur
     srcCue.push(event.payload.element);
 });
 
-listen("balackoutCMD", (event: { payload: { transition: boolean } }) => {
-
+listen("blackoutCMD", (event: { payload: { transition: boolean } }) => {
+    console.log("blackoutCMD");
 });
 
 listen("updateIsLooped", (event: { payload: { element: HTMLElement, isLooped: boolean } }) => {
+    console.log("updateIsLooped");
     if (currentElement != event.payload.element) {
         return;
     }

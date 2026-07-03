@@ -7,9 +7,11 @@ let isMainTransition = false;
 let isSecTransition = false;
 const srcCue = [];
 listen("preloadMedia", (event) => {
+    console.log("preloadMedia");
     // preload();
 });
 listen("transitionCMD", (event) => {
+    console.log("transitionCMD");
     if (currentElement == event.payload.element) {
         return;
     }
@@ -27,9 +29,11 @@ listen("transitionCMD", (event) => {
     }
     srcCue.push(event.payload.element);
 });
-listen("balackoutCMD", (event) => {
+listen("blackoutCMD", (event) => {
+    console.log("blackoutCMD");
 });
 listen("updateIsLooped", (event) => {
+    console.log("updateIsLooped");
     if (currentElement != event.payload.element) {
         return;
     }
