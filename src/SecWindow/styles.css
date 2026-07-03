@@ -53,6 +53,13 @@ html {
   pointer-events: none;
 }
 
+.media-slot.preload {
+  opacity: 0;
+  z-index: -1;
+  
+  pointer-events: none;
+}
+
 .media-slot img,
 .media-slot video {
   width: 100%;

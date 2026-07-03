@@ -1,7 +1,7 @@
 const { emit } = window.__TAURI__.event;
 //Todo send element as unique id
-export function preloadMedia(element, isVideo, isColor, isLooped) {
-    emit("preloadMedia", { element: element, isVideo: isVideo, isColor: isColor, isLooped: isLooped });
+export function preloadMedia(element, isVideo, isColor, isLooped, url) {
+    emit("preloadMedia", { element: element, isVideo: isVideo, isColor: isColor, isLooped: isLooped, url: url });
 }
 export function transitionCMD(element, transtionDuration, transition, isLooped) {
     emit("transitionCMD", { element: element, transitionDuration: transtionDuration, transition: transition, isLooped: isLooped });

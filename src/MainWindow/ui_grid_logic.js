@@ -29,7 +29,7 @@ export async function sendMedia(path, is_color, element) {
   }
 
   const assetUrl = convertFileSrc(path);
-  preloadMedia(element, isVideo, false, isLooped); // isVideo, isColor, isLooped
+  preloadMedia(element, isVideo, false, isLooped, path); // isVideo, isColor, isLooped
 }
 
 function isEditSelected(element) {

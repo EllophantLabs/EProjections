@@ -1,18 +1,22 @@
 const { listen } = window.__TAURI__.event;
 
+import { mainTransition, preloadSlot } from "./transitions.js";
+
 // active src
 export let currentElement: HTMLElement | null = null;
 export let currentLooped: boolean = false;
-export let currentDuration: number = 0;
+export let currentDuration: number = 1000;
 
 let isMainTransition: boolean = false;
 let isSecTransition: boolean = false;
 
 const srcCue = [];
 
-listen("preloadMedia", (event: { payload: { element: HTMLElement, isVideo: boolean, isColor: boolean, isLooped: boolean } }) => {
+listen("preloadMedia", (event: { payload: { element: HTMLElement, isVideo: boolean, isColor: boolean, isLooped: boolean, url: string } }) => {
     console.log("preloadMedia");
     // preload();
+
+    preloadSlot(event.payload.isVideo, event.payload.url, event.payload.isLooped, event.payload.isColor); /* isVideo: boolean, url: string, isLooped: boolean, isColor: boolean */
 });
 
 listen("transitionCMD", (event: { payload: { element: HTMLElement, transitionDuration: number, transition: boolean, isLooped: boolean } }) => {
@@ -27,6 +31,7 @@ listen("transitionCMD", (event: { payload: { element: HTMLElement, transitionDur
     if (!isMainTransition) // no transition
     {
         // mainTransition();
+        mainTransition();
         return;
     }
 

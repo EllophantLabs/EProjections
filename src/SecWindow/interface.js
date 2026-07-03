@@ -1,14 +1,16 @@
 const { listen } = window.__TAURI__.event;
+import { mainTransition, preloadSlot } from "./transitions.js";
 // active src
 export let currentElement = null;
 export let currentLooped = false;
-export let currentDuration = 0;
+export let currentDuration = 1000;
 let isMainTransition = false;
 let isSecTransition = false;
 const srcCue = [];
 listen("preloadMedia", (event) => {
     console.log("preloadMedia");
     // preload();
+    preloadSlot(event.payload.isVideo, event.payload.url, event.payload.isLooped, event.payload.isColor); /* isVideo: boolean, url: string, isLooped: boolean, isColor: boolean */
 });
 listen("transitionCMD", (event) => {
     console.log("transitionCMD");
@@ -20,6 +22,7 @@ listen("transitionCMD", (event) => {
     if (!isMainTransition) // no transition
      {
         // mainTransition();
+        mainTransition();
         return;
     }
     if (!isSecTransition) // only main transition
