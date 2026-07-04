@@ -430,3 +430,7 @@ html {
   min-width: 50px;
   min-height: 33px;
 }
+
+#durationInput {
+  display: none;
+}

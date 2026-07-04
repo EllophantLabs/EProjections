@@ -6,7 +6,6 @@ export function preloadSlot(isVideo, url, isLooped, isColor) {
         return;
     }
     preloadSlot.innerHTML = "";
-    console.log(`url: ${url}`);
     if (isVideo) {
         const video = document.createElement("video");
         video.src = url;
@@ -23,6 +22,7 @@ export function preloadSlot(isVideo, url, isLooped, isColor) {
         div.style.width = "100%";
         div.style.height = "100%";
         preloadSlot.appendChild(div);
+        console.log(`preloaded Color -> ${url}`);
         return;
     }
     /* is img */

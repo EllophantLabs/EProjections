@@ -11,7 +11,7 @@ const { emit } = window.__TAURI__.event;
 
 export async function sendMedia(path, is_color, element) {
   if (is_color) {
-    preloadMedia(element, false, true, false); //isVideo, isColor, isLooped
+    preloadMedia(element, false, true, false, path); //isVideo, isColor, isLooped
     return;
   }
 
@@ -29,8 +29,7 @@ export async function sendMedia(path, is_color, element) {
   }
 
   const assetUrl = convertFileSrc(path);
-  console.log(`asserUrl: ${assetUrl}`);
-  preloadMedia(element, isVideo, false, isLooped, path); // isVideo, isColor, isLooped
+  preloadMedia(element, isVideo, false, isLooped, assetUrl); // isVideo, isColor, isLooped
 }
 
 function isEditSelected(element) {
