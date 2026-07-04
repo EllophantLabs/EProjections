@@ -1,5 +1,5 @@
 import { transitionToggle, editToggle } from "./script.js";
-import {cue} from "../SecWindow/script.js";
+import { cue } from "../SecWindow/script.js";
 
 const { invoke } = window.__TAURI__.core;
 const { convertFileSrc } = window.__TAURI__.core;
@@ -24,8 +24,7 @@ export async function sendMedia(path, is_color, element) {
 
   let isLooped = false;
 
-  if(isVideo)
-  {
+  if (isVideo) {
     isLooped = element.parentElement.isLooped;
     console.log("Main isLooped: " + isLooped);
   }
@@ -35,7 +34,7 @@ export async function sendMedia(path, is_color, element) {
     url: assetUrl,
     isVideo: isVideo,
     isColor: false,
-    isLooped: isLooped
+    isLooped: isLooped,
   });
 }
 
@@ -107,7 +106,7 @@ function unmarkPlaying(element) {
   element.classList.remove("playing");
 }
 
-export async function handleMediaClick(event, name) {
+export async function handleMediaClick(event, srcName) {
   const element = event.currentTarget;
 
   if (editToggle) {
@@ -126,7 +125,7 @@ export async function handleMediaClick(event, name) {
       updateLoopBtn();
 
       // preload media
-      let path = await invoke("get_file_src", { fileName: name });
+      let path = await invoke("get_file_src", { fileName: srcName });
       sendMedia(path, false, element);
       return;
     }
@@ -274,14 +273,12 @@ export function updateLoopBtn() {
   const element = elements[0];
   const btn = document.getElementById("loopBtn");
 
-  if(!element)
-  {
+  if (!element) {
     btn.classList.add("hidden-looped-btn");
     return;
   }
-  
-  if(!element.parentElement.isVideo)
-  {
+
+  if (!element.parentElement.isVideo) {
     btn.classList.add("hidden-looped-btn");
     return;
   }
@@ -290,9 +287,7 @@ export function updateLoopBtn() {
 
   pubIsLooped = element.parentElement.isLooped;
 
-  
-  if(pubIsLooped)
-  {
+  if (pubIsLooped) {
     btn.classList.add("is-active");
     return;
   }

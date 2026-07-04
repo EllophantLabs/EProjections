@@ -6,12 +6,7 @@ let numberOfTemplates = 0;
 const maxNumberOfTemplates = 200;
 export let layout = []; // id starts with 1->...
 
-export function addAssetsToTemplate(
-  assetName,
-  assetSrc,
-  imgSrc,
-  element
-) {
+export function addAssetsToTemplate(assetName, assetSrc, imgSrc, element) {
   const div = document.createElement("div");
   div.className = "grid-box-content";
   div.draggable = editToggle;
@@ -24,7 +19,7 @@ export function addAssetsToTemplate(
   const isLooped = element.isLooped;
 
   div.addEventListener("click", (event) => {
-    handleMediaClick(event, assetName);
+    handleMediaClick(event, assetSrc);
   });
 
   div.addEventListener("dragstart", (e) => {
@@ -356,10 +351,9 @@ export function addMoveTemplate() {
         "true";
       console.log("Dragstart: isVIdeo: " + isVideo + " isLooped: " + isLooped);
 
-      
       const newId = addGridTemplateBefore(parent);
       const newTemplate = document.getElementById(newId);
-      
+
       newTemplate.isVideo = isVideo;
       newTemplate.isLooped = isLooped;
 
