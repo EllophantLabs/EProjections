@@ -1,4 +1,6 @@
-import { currentDuration } from "./interface.js";
+let blackoutToggle: boolean = false;
+let transitionToggle: boolean = true; //Todo update toggle!
+let transitionDuration: number = 5000; // ms //Todo update duration!
 
 export function preloadSlot(isVideo: boolean, url: string, isLooped: boolean, isColor: boolean): void {
     const preloadSlot = document.querySelector(".preload");
@@ -52,13 +54,28 @@ export function preloadSlot(isVideo: boolean, url: string, isLooped: boolean, is
 }
 
 export function mainTransition(): void {
+
+    // main transition
     const newSlot = document.querySelector(".preload");
     const oldSlot = document.querySelector(".visible");
 
-    document.documentElement.style.setProperty('--fade-duration', `${currentDuration}ms`);
+    document.documentElement.style.setProperty('--fade-duration', `${transitionDuration}ms`);
 
     if (!newSlot || !oldSlot) {
         console.error("!newSlot || !oldSlot -> transitions.ts");
+        return;
+    }
+
+    if (blackoutToggle) {
+        blackoutToggle = false;
+
+        oldSlot.classList.remove("visible");
+        oldSlot.classList.add("preload");
+        newSlot.classList.remove("preload");
+        newSlot.classList.add("visible");
+
+        removeBlackout(transitionDuration);
+
         return;
     }
 
@@ -75,4 +92,32 @@ export function mainTransition(): void {
 
 export function secTransition(): void {
 
+}
+
+export function blackoutTransition(transition: 0 | 1): void {
+    const slot = document.querySelector("#blackoutSlot");
+
+    if (!slot) {
+        console.error("no blackout slot! transitions.ts");
+        return;
+    }
+
+    if (blackoutToggle) {
+        document.documentElement.style.setProperty('--blackout-fade', `${transition*1000}ms`);
+        slot.classList.remove("blackoutVisible");
+        blackoutToggle = false;
+        return;
+    }
+
+    document.documentElement.style.setProperty('--blackout-fade', `${transition*1000}ms`);
+    slot.classList.add("blackoutVisible");
+    blackoutToggle = true;
+}
+
+function removeBlackout(transitionDuration: number): void {
+    const slot = document.querySelector("#blackoutSlot");
+
+    document.documentElement.style.setProperty('--blackout-fade', `${transitionDuration}ms`);
+    slot?.classList.remove("blackoutVisible");
+    blackoutToggle = false;
 }

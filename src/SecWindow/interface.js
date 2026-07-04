@@ -1,9 +1,9 @@
 const { listen } = window.__TAURI__.event;
-import { mainTransition, preloadSlot } from "./transitions.js";
+import { mainTransition, preloadSlot, blackoutTransition } from "./transitions.js";
 // active src
-export let currentElement = null;
-export let currentLooped = false;
-export let currentDuration = 1000;
+let currentElement = null;
+let currentLooped = false;
+let currentDuration = 10000; // ms
 let isMainTransition = false;
 let isSecTransition = false;
 const srcCue = [];
@@ -34,6 +34,8 @@ listen("transitionCMD", (event) => {
 });
 listen("blackoutCMD", (event) => {
     console.log("blackoutCMD");
+    const transition = event.payload.transition ? 1 : 0;
+    blackoutTransition(transition);
 });
 listen("updateIsLooped", (event) => {
     console.log("updateIsLooped");

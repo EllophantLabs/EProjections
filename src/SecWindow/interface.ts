@@ -1,11 +1,12 @@
 const { listen } = window.__TAURI__.event;
 
-import { mainTransition, preloadSlot } from "./transitions.js";
+import { mainTransition, preloadSlot, blackoutTransition } from "./transitions.js";
 
 // active src
-export let currentElement: HTMLElement | null = null;
-export let currentLooped: boolean = false;
-export let currentDuration: number = 1000;
+let currentElement: HTMLElement | null = null;
+let currentLooped: boolean = false;
+let currentDuration: number = 10000; // ms
+
 
 let isMainTransition: boolean = false;
 let isSecTransition: boolean = false;
@@ -46,6 +47,8 @@ listen("transitionCMD", (event: { payload: { element: HTMLElement, transitionDur
 
 listen("blackoutCMD", (event: { payload: { transition: boolean } }) => {
     console.log("blackoutCMD");
+    const transition: 0 | 1 = event.payload.transition ? 1 : 0;
+    blackoutTransition(transition);
 });
 
 listen("updateIsLooped", (event: { payload: { element: HTMLElement, isLooped: boolean } }) => {

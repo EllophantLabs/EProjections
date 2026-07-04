@@ -2,6 +2,8 @@
 :root {
   --fade-duration: 1000ms;
   --shadow-fade-duration: 1000ms;
+
+  --blackout-fade: 1;
 }
 
 body,
@@ -58,6 +60,29 @@ html {
   z-index: -1 !important;
 
   pointer-events: none;
+}
+
+#blackoutSlot {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+
+  transition: opacity var(--blackout-fade) ease-in-out;
+
+  opacity: 0;
+  pointer-events: none;
+  z-index: 0;
+
+  background-color: black;
+}
+
+#blackoutSlot.blackoutVisible {
+  opacity: 1;
+
+  transition: opacity var(--blackout-fade) ease-in-out;
+  z-index: 9; /* ganz oben als blackout overlay */
 }
 
 .media-slot img,
