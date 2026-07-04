@@ -29,6 +29,7 @@ export async function sendMedia(path, is_color, element) {
   }
 
   const assetUrl = convertFileSrc(path);
+  console.log(`asserUrl: ${assetUrl}`);
   preloadMedia(element, isVideo, false, isLooped, path); // isVideo, isColor, isLooped
 }
 
@@ -100,7 +101,7 @@ function unmarkPlaying(element) {
   element.classList.remove("playing");
 }
 
-export async function handleMediaClick(event, name) {
+export async function handleMediaClick(event, srcName) {
   const element = event.currentTarget;
 
   if (editToggle) {
@@ -119,7 +120,7 @@ export async function handleMediaClick(event, name) {
       updateLoopBtn();
 
       // preload media
-      let path = await invoke("get_file_src", { fileName: name });
+      let path = await invoke("get_file_src", { fileName: srcName });
       sendMedia(path, false, element);
       return;
     }

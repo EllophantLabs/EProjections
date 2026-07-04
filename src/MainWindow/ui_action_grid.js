@@ -19,7 +19,7 @@ export function addAssetsToTemplate(assetName, assetSrc, imgSrc, element) {
   const isLooped = element.isLooped;
 
   div.addEventListener("click", (event) => {
-    handleMediaClick(event, assetName);
+    handleMediaClick(event, assetSrc);
   });
 
   div.addEventListener("dragstart", (e) => {

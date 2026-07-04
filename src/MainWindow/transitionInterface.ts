@@ -10,7 +10,7 @@ const { emit } = window.__TAURI__.event;
 
 export function preloadMedia(element: HTMLElement, isVideo: boolean, isColor: boolean, isLooped: boolean, url: string) {
     //Todo only temporary
-    
+    console.log(`url: ${url}`);
     emit("preloadMedia", { element: element, isVideo: isVideo, isColor: isColor, isLooped: isLooped, url: url });
 }
 
