@@ -1,6 +1,5 @@
 let blackoutToggle: boolean = false;
 let transitionToggle: boolean = true; //Todo update toggle!
-let transitionDuration: number = 5000; // ms //Todo update duration!
 
 export function preloadSlot(isVideo: boolean, url: string, isLooped: boolean, isColor: boolean): void {
     const preloadSlot = document.querySelector(".preload");
@@ -53,8 +52,8 @@ export function preloadSlot(isVideo: boolean, url: string, isLooped: boolean, is
     preloadSlot.appendChild(bg);
 }
 
-export function mainTransition(): void {
-
+export function mainTransition(transitionDuration: number): void {
+    
     // main transition
     const newSlot = document.querySelector(".preload");
     const oldSlot = document.querySelector(".visible");
@@ -103,13 +102,13 @@ export function blackoutTransition(transition: 0 | 1): void {
     }
 
     if (blackoutToggle) {
-        document.documentElement.style.setProperty('--blackout-fade', `${transition*1000}ms`);
+        document.documentElement.style.setProperty('--blackout-fade', `${transition * 1000}ms`);
         slot.classList.remove("blackoutVisible");
         blackoutToggle = false;
         return;
     }
 
-    document.documentElement.style.setProperty('--blackout-fade', `${transition*1000}ms`);
+    document.documentElement.style.setProperty('--blackout-fade', `${transition * 1000}ms`);
     slot.classList.add("blackoutVisible");
     blackoutToggle = true;
 }

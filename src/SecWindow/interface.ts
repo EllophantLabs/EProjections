@@ -11,7 +11,7 @@ let currentDuration: number = 10000; // ms
 let isMainTransition: boolean = false;
 let isSecTransition: boolean = false;
 
-const srcCue = [];
+const payloadCue = [];
 
 //Todo add audio support!
 
@@ -21,28 +21,34 @@ listen("preloadMedia", (event: { payload: { element: HTMLElement, isVideo: boole
 });
 
 listen("transitionCMD", (event: { payload: { element: HTMLElement, transitionDuration: number, transition: boolean, isLooped: boolean } }) => {
+    const tempTransitionDuration: number = 1000; //Todo update transitionDuration!
+
     if (currentElement == event.payload.element) {
         return;
     }
 
-    currentLooped = event.payload.isLooped;
-    currentDuration = event.payload.transitionDuration;
-
     if (!isMainTransition) // no transition
     {
-        // mainTransition();
-        console.log(`main transition!`)
-        mainTransition();
+        isMainTransition = true;
+        console.log(`isMainTransition => true`);
+        mainTransition(tempTransitionDuration);
+
+        setTimeout(() => {
+            isMainTransition = false;
+        }, tempTransitionDuration);
+
         return;
     }
 
-    if (!isSecTransition) // only main transition
+    if (!isSecTransition && tempTransitionDuration > 1500) // only main transition
     {
         // secTransition();
+        console.log(`isSecTransition => true`);
         return;
     }
 
-    srcCue.push(event.payload.element);
+    console.log(`no empty transition!!!`);
+    payloadCue.push(event.payload);
 });
 
 listen("blackoutCMD", (event: { payload: { transition: boolean } }) => {

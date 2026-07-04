@@ -13,6 +13,7 @@ listen("preloadMedia", (event) => {
     preloadSlot(event.payload.isVideo, event.payload.url, event.payload.isLooped, event.payload.isColor); /* isVideo: boolean, url: string, isLooped: boolean, isColor: boolean */
 });
 listen("transitionCMD", (event) => {
+    const tempTransitionDuration = 1000; //Todo update transitionDuration!
     if (currentElement == event.payload.element) {
         return;
     }
@@ -20,16 +21,21 @@ listen("transitionCMD", (event) => {
     currentDuration = event.payload.transitionDuration;
     if (!isMainTransition) // no transition
      {
-        // mainTransition();
-        console.log(`main transition!`);
-        mainTransition();
+        isMainTransition = true;
+        console.log(`isMainTransition => true`);
+        mainTransition(tempTransitionDuration);
+        setTimeout(() => {
+            isMainTransition = false;
+        }, tempTransitionDuration);
         return;
     }
     if (!isSecTransition) // only main transition
      {
         // secTransition();
+        console.log(`isSecTransition => true`);
         return;
     }
+    console.log(`no empty transition!!!`);
     srcCue.push(event.payload.element);
 });
 listen("blackoutCMD", (event) => {

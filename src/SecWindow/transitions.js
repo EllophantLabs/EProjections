@@ -1,6 +1,5 @@
 let blackoutToggle = false;
 let transitionToggle = true; //Todo update toggle!
-let transitionDuration = 5000; // ms //Todo update duration!
 export function preloadSlot(isVideo, url, isLooped, isColor) {
     const preloadSlot = document.querySelector(".preload");
     if (!preloadSlot) {
@@ -42,7 +41,7 @@ export function preloadSlot(isVideo, url, isLooped, isColor) {
     bg.appendChild(img);
     preloadSlot.appendChild(bg);
 }
-export function mainTransition() {
+export function mainTransition(transitionDuration) {
     // main transition
     const newSlot = document.querySelector(".preload");
     const oldSlot = document.querySelector(".visible");
