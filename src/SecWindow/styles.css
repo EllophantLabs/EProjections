@@ -28,35 +28,35 @@ html {
 
 .media-slot.hidden {
   opacity: 0;
-  z-index: 2; /* muss größer sein, da es von über den anderen weg faded */
+  z-index: 2 !important; /* muss größer sein, da es von über den anderen weg faded */
 
   /* fade */
   transition: opacity var(--fade-duration, 1s) ease-in-out;
-  
+
   pointer-events: none;
 }
 
 .media-slot.visible {
   opacity: 1;
-  z-index: 0;
+  z-index: 0 !important;
 
   pointer-events: auto;
 }
 
 .media-slot.shadow {
   opacity: 0;
-  z-index: 1;
+  z-index: 1 !important;
 
   /* fade */
   transition: opacity var(--shadow-fade-duration, 1s) ease-in-out;
-  
+
   pointer-events: none;
 }
 
 .media-slot.preload {
   opacity: 0;
-  z-index: -1;
-  
+  z-index: -1 !important;
+
   pointer-events: none;
 }
 

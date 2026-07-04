@@ -12,15 +12,14 @@ let isSecTransition: boolean = false;
 
 const srcCue = [];
 
-listen("preloadMedia", (event: { payload: { element: HTMLElement, isVideo: boolean, isColor: boolean, isLooped: boolean, url: string } }) => {
-    console.log("preloadMedia");
-    // preload();
+//Todo add audio support!
 
+//* preload slot is working!
+listen("preloadMedia", (event: { payload: { element: HTMLElement, isVideo: boolean, isColor: boolean, isLooped: boolean, url: string } }) => {
     preloadSlot(event.payload.isVideo, event.payload.url, event.payload.isLooped, event.payload.isColor); /* isVideo: boolean, url: string, isLooped: boolean, isColor: boolean */
 });
 
 listen("transitionCMD", (event: { payload: { element: HTMLElement, transitionDuration: number, transition: boolean, isLooped: boolean } }) => {
-    console.log("transitionCMD");
     if (currentElement == event.payload.element) {
         return;
     }
@@ -31,6 +30,7 @@ listen("transitionCMD", (event: { payload: { element: HTMLElement, transitionDur
     if (!isMainTransition) // no transition
     {
         // mainTransition();
+        console.log(`main transition!`)
         mainTransition();
         return;
     }

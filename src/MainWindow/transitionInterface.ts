@@ -9,7 +9,6 @@ const { emit } = window.__TAURI__.event;
 //Todo send element as unique id
 
 export function preloadMedia(element: HTMLElement, isVideo: boolean, isColor: boolean, isLooped: boolean, url: string) {
-    //Todo only temporary
     emit("preloadMedia", { element: element, isVideo: isVideo, isColor: isColor, isLooped: isLooped, url: url });
 }
 

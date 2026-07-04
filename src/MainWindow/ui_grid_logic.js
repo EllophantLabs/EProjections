@@ -25,7 +25,6 @@ export async function sendMedia(path, is_color, element) {
 
   if (isVideo) {
     isLooped = element.parentElement.isLooped;
-    console.log("Main isLooped: " + isLooped);
   }
 
   const assetUrl = convertFileSrc(path);

@@ -10,6 +10,11 @@ export function preloadSlot(isVideo: boolean, url: string, isLooped: boolean, is
     preloadSlot.innerHTML = "";
 
     if (isVideo) {
+        const bg = document.createElement("div");
+        bg.style.backgroundColor = "black";
+        bg.style.width = "100%";
+        bg.style.height = "100%";
+
         const video = document.createElement("video");
         video.src = url;
         video.muted = true;
@@ -17,7 +22,8 @@ export function preloadSlot(isVideo: boolean, url: string, isLooped: boolean, is
         video.loop = isLooped;
         video.crossOrigin = "anonymous";
 
-        preloadSlot.appendChild(video);
+        bg.appendChild(video);
+        preloadSlot.appendChild(bg);
         return;
     }
 
@@ -33,22 +39,38 @@ export function preloadSlot(isVideo: boolean, url: string, isLooped: boolean, is
     }
 
     /* is img */
+    const bg = document.createElement("div");
+    bg.style.backgroundColor = "black";
+    bg.style.width = "100%";
+    bg.style.height = "100%";
+
     const img = document.createElement("img");
     img.src = url;
 
-    preloadSlot.appendChild(img);
+    bg.appendChild(img);
+    preloadSlot.appendChild(bg);
 }
 
 export function mainTransition(): void {
-    const newSlot = document.querySelector(".hidden");
+    const newSlot = document.querySelector(".preload");
     const oldSlot = document.querySelector(".visible");
 
     document.documentElement.style.setProperty('--fade-duration', `${currentDuration}ms`);
 
-    newSlot?.classList.add("hidden");
-    newSlot?.classList.remove("visible");
-    oldSlot?.classList.add("visible");
-    oldSlot?.classList.remove("hidden");
+    if (!newSlot || !oldSlot) {
+        console.error("!newSlot || !oldSlot -> transitions.ts");
+        return;
+    }
+
+    // new preload slot
+    const newPreloadSlot = document.querySelector(".hidden");
+    newPreloadSlot?.classList.remove("hidden");
+    newPreloadSlot?.classList.add("preload");
+
+    oldSlot.classList.add("hidden");
+    oldSlot.classList.remove("visible");
+    newSlot.classList.remove("preload");
+    newSlot.classList.add("visible");
 }
 
 export function secTransition(): void {

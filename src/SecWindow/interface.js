@@ -7,13 +7,12 @@ export let currentDuration = 1000;
 let isMainTransition = false;
 let isSecTransition = false;
 const srcCue = [];
+//Todo add audio support!
+//* preload slot is working!
 listen("preloadMedia", (event) => {
-    console.log("preloadMedia");
-    // preload();
     preloadSlot(event.payload.isVideo, event.payload.url, event.payload.isLooped, event.payload.isColor); /* isVideo: boolean, url: string, isLooped: boolean, isColor: boolean */
 });
 listen("transitionCMD", (event) => {
-    console.log("transitionCMD");
     if (currentElement == event.payload.element) {
         return;
     }
@@ -22,6 +21,7 @@ listen("transitionCMD", (event) => {
     if (!isMainTransition) // no transition
      {
         // mainTransition();
+        console.log(`main transition!`);
         mainTransition();
         return;
     }
