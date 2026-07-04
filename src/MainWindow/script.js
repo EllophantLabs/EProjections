@@ -327,6 +327,10 @@ window.addEventListener("DOMContentLoaded", () => {
       return;
     }
 
+    if (document.querySelector(".editSelected").parentElement.is_color) {
+      return;
+    }
+
     const name = prompt("Umbenennen zu:");
 
     if (name == "" || name == undefined) {
