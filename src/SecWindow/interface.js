@@ -6,7 +6,7 @@ let currentLooped = false;
 let currentDuration = 10000; // ms
 let isMainTransition = false;
 let isSecTransition = false;
-const srcCue = [];
+const payloadCue = [];
 //Todo add audio support!
 //* preload slot is working!
 listen("preloadMedia", (event) => {
@@ -17,8 +17,6 @@ listen("transitionCMD", (event) => {
     if (currentElement == event.payload.element) {
         return;
     }
-    currentLooped = event.payload.isLooped;
-    currentDuration = event.payload.transitionDuration;
     if (!isMainTransition) // no transition
      {
         isMainTransition = true;
@@ -29,14 +27,14 @@ listen("transitionCMD", (event) => {
         }, tempTransitionDuration);
         return;
     }
-    if (!isSecTransition) // only main transition
+    if (!isSecTransition && tempTransitionDuration > 1500) // only main transition
      {
         // secTransition();
         console.log(`isSecTransition => true`);
         return;
     }
     console.log(`no empty transition!!!`);
-    srcCue.push(event.payload.element);
+    payloadCue.push(event.payload);
 });
 listen("blackoutCMD", (event) => {
     console.log("blackoutCMD");
