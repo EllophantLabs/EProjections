@@ -11,7 +11,8 @@ let currentDuration: number = 10000; // ms
 let isMainTransition: boolean = false;
 let isSecTransition: boolean = false;
 
-const payloadCue = [];
+let payloadCue: { element: HTMLElement, transitionDuration: number, transition: boolean, isLooped: boolean };
+let payloadCueIsValid: boolean = false;
 
 //Todo add audio support!
 
@@ -21,35 +22,38 @@ listen("preloadMedia", (event: { payload: { element: HTMLElement, isVideo: boole
 });
 
 listen("transitionCMD", (event: { payload: { element: HTMLElement, transitionDuration: number, transition: boolean, isLooped: boolean } }) => {
-    const tempTransitionDuration: number = 1000; //Todo update transitionDuration!
+    transitionCMD(event.payload); // function call to make recursive callbacks possible
+});
 
-    if (currentElement == event.payload.element) {
+function transitionCMD(payload: { element: HTMLElement, transitionDuration: number, transition: boolean, isLooped: boolean }) {
+    const tempTransitionDuration: number = 2000; //Todo update transitionDuration!
+
+    if (currentElement == payload.element) {
+        console.log("Dublicate -> return!");
         return;
     }
 
-    if (!isMainTransition) // no transition
-    {
-        isMainTransition = true;
-        console.log(`isMainTransition => true`);
-        mainTransition(tempTransitionDuration);
+    // temporary: only main transition with fixed 500ms duration
 
+    if (!isMainTransition) {
+        payloadCueIsValid = false;
+        mainTransition(tempTransitionDuration);
+        console.log("Main transition!");
+
+        isMainTransition = true;
         setTimeout(() => {
             isMainTransition = false;
+            if (payloadCueIsValid) {
+                transitionCMD(payloadCue);
+            }
         }, tempTransitionDuration);
 
         return;
     }
 
-    if (!isSecTransition && tempTransitionDuration > 1500) // only main transition
-    {
-        // secTransition();
-        console.log(`isSecTransition => true`);
-        return;
-    }
-
-    console.log(`no empty transition!!!`);
-    payloadCue.push(event.payload);
-});
+    payloadCue = payload;
+    payloadCueIsValid = true;
+}
 
 listen("blackoutCMD", (event: { payload: { transition: boolean } }) => {
     console.log("blackoutCMD");

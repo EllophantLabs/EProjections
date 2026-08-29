@@ -6,36 +6,40 @@ let currentLooped = false;
 let currentDuration = 10000; // ms
 let isMainTransition = false;
 let isSecTransition = false;
-const payloadCue = [];
+let payloadCue;
+let payloadCueIsValid = false;
 //Todo add audio support!
 //* preload slot is working!
 listen("preloadMedia", (event) => {
     preloadSlot(event.payload.isVideo, event.payload.url, event.payload.isLooped, event.payload.isColor); /* isVideo: boolean, url: string, isLooped: boolean, isColor: boolean */
 });
 listen("transitionCMD", (event) => {
-    const tempTransitionDuration = 1000; //Todo update transitionDuration!
-    if (currentElement == event.payload.element) {
+    transitionCMD(event.payload); // function call to make recursive callbacks possible
+});
+function transitionCMD(payload) {
+    const tempTransitionDuration = 2000; //Todo update transitionDuration!
+    if (currentElement == payload.element) {
+        console.log("Dublicate -> return!");
         return;
     }
-    if (!isMainTransition) // no transition
-     {
-        isMainTransition = true;
-        console.log(`isMainTransition => true`);
+    // temporary: only main transition with fixed 500ms duration
+    if (!isMainTransition) {
+        payloadCueIsValid = false;
         mainTransition(tempTransitionDuration);
+        console.log("Main transition!");
+        isMainTransition = true;
         setTimeout(() => {
             isMainTransition = false;
+            if (payloadCueIsValid) {
+                transitionCMD(payloadCue);
+            }
         }, tempTransitionDuration);
         return;
     }
-    if (!isSecTransition && tempTransitionDuration > 1500) // only main transition
-     {
-        // secTransition();
-        console.log(`isSecTransition => true`);
-        return;
-    }
-    console.log(`no empty transition!!!`);
-    payloadCue.push(event.payload);
-});
+    console.log(`no empty transition!!! need for cue`);
+    payloadCue = payload;
+    payloadCueIsValid = true;
+}
 listen("blackoutCMD", (event) => {
     console.log("blackoutCMD");
     const transition = event.payload.transition ? 1 : 0;
