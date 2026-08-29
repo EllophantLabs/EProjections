@@ -1,20 +1,25 @@
 {
   "name": "eprojections",
   "private": true,
-  "version": "0.4.3",
+  "version": "1.0.0",
   "type": "module",
   "scripts": {
     "tauri": "tauri",
+    "dev": "npx tsc && tauri dev",
     "version": "node update-version.js && git add ."
   },
   "devDependencies": {
-    "@tauri-apps/cli": "^2"
+    "@tauri-apps/cli": "^2",
+    "@types/node": "^25.6.0",
+    "concurrently": "^9.2.1",
+    "typescript": "^6.0.3"
   },
   "dependencies": {
     "@tauri-apps/plugin-dialog": "^2.6.0",
     "@tauri-apps/plugin-fs": "^2.4.4",
     "@tauri-apps/plugin-updater": "^2.10.1",
     "fs": "^0.0.1-security",
-    "npm": "^11.10.0"
+    "npm": "^11.10.0",
+    "tsc": "^2.0.4"
   }
 }
