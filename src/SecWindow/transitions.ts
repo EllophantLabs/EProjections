@@ -53,7 +53,7 @@ export function preloadSlot(isVideo: boolean, url: string, isLooped: boolean, is
 }
 
 export function mainTransition(transitionDuration: number): void {
-    
+
     // main transition
     const newSlot = document.querySelector(".preload");
     const oldSlot = document.querySelector(".visible");
@@ -87,6 +87,15 @@ export function mainTransition(transitionDuration: number): void {
     oldSlot.classList.remove("visible");
     newSlot.classList.remove("preload");
     newSlot.classList.add("visible");
+
+    if (newSlot.firstElementChild?.firstElementChild?.tagName == "VIDEO") { // if video unmute and play video
+        const video = newSlot.firstElementChild.firstElementChild;
+        if (!(video instanceof HTMLVideoElement)) {
+            return;
+        }
+        video.play();
+        video.muted = false;
+    }
 }
 
 export function secTransition(): void {

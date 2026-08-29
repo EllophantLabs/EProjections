@@ -67,6 +67,14 @@ export function mainTransition(transitionDuration) {
     oldSlot.classList.remove("visible");
     newSlot.classList.remove("preload");
     newSlot.classList.add("visible");
+    if (newSlot.firstElementChild?.firstElementChild?.tagName == "VIDEO") { // if video unmute and play video
+        const video = newSlot.firstElementChild.firstElementChild;
+        if (!(video instanceof HTMLVideoElement)) {
+            return;
+        }
+        video.play();
+        video.muted = false;
+    }
 }
 export function secTransition() {
 }

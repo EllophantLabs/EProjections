@@ -36,7 +36,6 @@ function transitionCMD(payload) {
         }, tempTransitionDuration);
         return;
     }
-    console.log(`no empty transition!!! need for cue`);
     payloadCue = payload;
     payloadCueIsValid = true;
 }
