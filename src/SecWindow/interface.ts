@@ -27,7 +27,7 @@ listen("transitionCMD", (event: { payload: { element: HTMLElement, transitionDur
 });
 
 function transitionCMD(payload: { element: HTMLElement, transitionDuration: number, transition: boolean, isLooped: boolean }) {
-    const tempTransitionDuration: number = 500; // duration in ms //Todo update transitionDuration!
+    let tempTransitionDuration: number = 500; // duration in ms //Todo update transitionDuration!
 
     // if (currentElement == payload.element) {
     //     console.log("Dublicate -> return!");
@@ -40,6 +40,12 @@ function transitionCMD(payload: { element: HTMLElement, transitionDuration: numb
 
     if (!isMainTransition) {
         payloadCueIsValid = false;
+
+        if(!payload.transition)
+        {
+            tempTransitionDuration = 0;
+        }
+
         mainTransition(tempTransitionDuration, payload.isLooped);
         console.log("Main transition!");
 

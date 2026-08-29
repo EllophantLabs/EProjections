@@ -18,7 +18,7 @@ listen("transitionCMD", (event) => {
     transitionCMD(event.payload); // function call to make recursive callbacks possible
 });
 function transitionCMD(payload) {
-    const tempTransitionDuration = 500; // duration in ms //Todo update transitionDuration!
+    let tempTransitionDuration = 500; // duration in ms //Todo update transitionDuration!
     // if (currentElement == payload.element) {
     //     console.log("Dublicate -> return!");
     //     return;
@@ -27,6 +27,9 @@ function transitionCMD(payload) {
     // temporary: only main transition with fixed 500ms duration
     if (!isMainTransition) {
         payloadCueIsValid = false;
+        if (!payload.transition) {
+            tempTransitionDuration = 0;
+        }
         mainTransition(tempTransitionDuration, payload.isLooped);
         console.log("Main transition!");
         isMainTransition = true;
