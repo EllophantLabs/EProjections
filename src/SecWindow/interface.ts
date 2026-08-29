@@ -27,12 +27,12 @@ listen("transitionCMD", (event: { payload: { element: HTMLElement, transitionDur
 });
 
 function transitionCMD(payload: { element: HTMLElement, transitionDuration: number, transition: boolean, isLooped: boolean }) {
-    const tempTransitionDuration: number = 2000; //Todo update transitionDuration!
+    const tempTransitionDuration: number = 500; // duration in ms //Todo update transitionDuration!
 
-    if (currentElement == payload.element) {
-        console.log("Dublicate -> return!");
-        return;
-    }
+    // if (currentElement == payload.element) {
+    //     console.log("Dublicate -> return!");
+    //     return;
+    // }
 
     currentElement = payload.element; // allowing backtracing and identification
 
