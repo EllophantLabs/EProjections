@@ -52,7 +52,7 @@ export function preloadSlot(isVideo: boolean, url: string, isLooped: boolean, is
     preloadSlot.appendChild(bg);
 }
 
-export function mainTransition(transitionDuration: number): void {
+export function mainTransition(transitionDuration: number, isLooped: boolean): void {
 
     // main transition
     const newSlot = document.querySelector(".preload");
@@ -95,6 +95,7 @@ export function mainTransition(transitionDuration: number): void {
         }
         video.play();
         video.muted = false;
+        video.loop = isLooped;
     }
 }
 

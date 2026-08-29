@@ -41,7 +41,7 @@ export function preloadSlot(isVideo, url, isLooped, isColor) {
     bg.appendChild(img);
     preloadSlot.appendChild(bg);
 }
-export function mainTransition(transitionDuration) {
+export function mainTransition(transitionDuration, isLooped) {
     // main transition
     const newSlot = document.querySelector(".preload");
     const oldSlot = document.querySelector(".visible");
@@ -74,6 +74,7 @@ export function mainTransition(transitionDuration) {
         }
         video.play();
         video.muted = false;
+        video.loop = isLooped;
     }
 }
 export function secTransition() {
