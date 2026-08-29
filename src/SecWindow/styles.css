@@ -1,4 +1,13 @@
-body, html {
+/* transition duration */
+:root {
+  --fade-duration: 1000ms;
+  --shadow-fade-duration: 1000ms;
+
+  --blackout-fade: 1;
+}
+
+body,
+html {
   margin: 0;
   padding: 0;
   overflow: hidden;
@@ -14,19 +23,70 @@ body, html {
   width: 100vw;
   height: 100vh;
 
-  transition: opacity 1s ease-in-out;
   opacity: 0;
   pointer-events: none;
-  z-index: 1;
+  z-index: 0;
 }
 
-.media-slot.active {
+.media-slot.hidden {
+  opacity: 0;
+  z-index: 2 !important; /* muss größer sein, da es von über den anderen weg faded */
+
+  /* fade */
+  transition: opacity var(--fade-duration, 1s) ease-in-out;
+
+  pointer-events: none;
+}
+
+.media-slot.visible {
   opacity: 1;
+  z-index: 0 !important;
+
   pointer-events: auto;
-  z-index: 2;
 }
 
-.media-slot img, .media-slot video {
+.media-slot.shadow {
+  opacity: 0;
+  z-index: 1 !important;
+
+  /* fade */
+  transition: opacity var(--shadow-fade-duration, 1s) ease-in-out;
+
+  pointer-events: none;
+}
+
+.media-slot.preload {
+  opacity: 0;
+  z-index: -1 !important;
+
+  pointer-events: none;
+}
+
+#blackoutSlot {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+
+  transition: opacity var(--blackout-fade) ease-in-out;
+
+  opacity: 0;
+  pointer-events: none;
+  z-index: 0;
+
+  background-color: black;
+}
+
+#blackoutSlot.blackoutVisible {
+  opacity: 1;
+
+  transition: opacity var(--blackout-fade) ease-in-out;
+  z-index: 9; /* ganz oben als blackout overlay */
+}
+
+.media-slot img,
+.media-slot video {
   width: 100%;
   height: 100%;
   object-fit: contain;
