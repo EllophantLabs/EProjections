@@ -349,7 +349,6 @@ export function addMoveTemplate() {
       const isLooped =
         event.dataTransfer.getData("application/isLooped-screen-monkey") ===
         "true";
-      console.log("Dragstart: isVIdeo: " + isVideo + " isLooped: " + isLooped);
 
       const newId = addGridTemplateBefore(parent);
       const newTemplate = document.getElementById(newId);

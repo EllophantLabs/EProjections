@@ -28,6 +28,8 @@ import {
 } from "./ui_grid_logic.js";
 import { keyRightArrow, keyLeftArrow, keyEnter } from "./keyboard_logic.js";
 
+import { blackoutCMD, updateIsLooped } from "./transitionInterface.js";
+
 // global variables
 export let editToggle = false;
 let assetToggle = true;
@@ -195,7 +197,8 @@ function isLoopedToggleFn(event) {
   const btn = event.currentTarget;
   parent.isLooped = !parent.isLooped;
 
-  cue.payload.isLooped = parent.isLooped; //* Update cue in ../SecWindow/script.js !
+  // cue.payload.isLooped = parent.isLooped; //* Update cue in ../SecWindow/script.js !
+  updateIsLooped(parent.src, parent.isLooped);
   console.log("updated loop cue!");
 
   if (parent.isLooped) {
@@ -263,11 +266,11 @@ window.addEventListener("DOMContentLoaded", () => {
     unmarkPlayingAll();
 
     if (transitionToggle) {
-      emit("black_out_fade");
+      blackoutCMD(true);
       return;
     }
 
-    emit("black_out");
+    blackoutCMD(false);
   });
 
   // transition
@@ -321,6 +324,10 @@ window.addEventListener("DOMContentLoaded", () => {
     }
 
     if (document.querySelectorAll(".editSelected")[0] == undefined) {
+      return;
+    }
+
+    if (document.querySelector(".editSelected").parentElement.is_color) {
       return;
     }
 
@@ -386,7 +393,7 @@ window.addEventListener("DOMContentLoaded", () => {
 window.addEventListener("contextmenu", (e) => e.preventDefault());
 
 window.addEventListener("keydown", async (event) => {
-  event.preventDefault();
+  // event.preventDefault();
   if (event.repeat) {
     return;
   }
@@ -409,10 +416,10 @@ window.addEventListener("keydown", async (event) => {
       event.preventDefault();
       unmarkPlayingAll();
       if (transitionToggle) {
-        emit("black_out_fade");
+        blackoutCMD(true);
         return;
       }
-      emit("black_out");
+      blackoutCMD(false);
       const elements = document.querySelectorAll(".displaySelected"); // is_color
       const element = elements[0];
       const parent = element.parentElement;
@@ -448,6 +455,74 @@ window.addEventListener("keydown", async (event) => {
       result.forEach((name) => {
         addAssetsToGridDisplay(name);
       });
+      break;
+    // delete selected item
+    case "Delete":
+      if (!editToggle) {
+        return;
+      }
+
+      const child = document.querySelector(".editSelected");
+      const id = child.parentElement.id;
+      layout.splice(layout.indexOf(id), 1);
+      child.parentElement.parentElement.remove();
+      editDeselectAll();
+      addGhostMoveTemplate();
+      auto_save();
+      break;
+
+    // add templates
+    case "+":
+      if (!editToggle) {
+        return;
+      }
+
+      addGridTemplates(5);
+      addGhostMoveTemplate();
+      break;
+
+    // toggle visibility
+    case "h":
+      if (visibilityToggle) {
+        //toggle -> off
+        visibilityToggle = false;
+        const btn = document.getElementById("visibilityToggle");
+        btn.classList.add("is-active");
+        await invoke("hide_sec_window");
+      } else {
+        //toggle -> on
+        visibilityToggle = true;
+        const btn = document.getElementById("visibilityToggle");
+        btn.classList.remove("is-active");
+        await invoke("show_sec_window");
+      }
+      break;
+
+    // open directory
+    case "d":
+      await invoke("open_project_folder");
+      break;
+
+    // clear workingspace
+    case "l":
+      if (!editToggle) {
+        return;
+      }
+      const newLayout = layout.filter((id) => {
+        const element = document.getElementById(id);
+
+        if (element.empty) {
+          element.parentElement.remove();
+          return false;
+        }
+        return true;
+      });
+
+      layout.length = 0;
+      layout.push(...newLayout);
+
+      addGhostMoveTemplate();
+      auto_save();
       break;
   }
 });

@@ -1,6 +1,9 @@
 import { transitionToggle, editToggle } from "./script.js";
 import { cue } from "../SecWindow/script.js";
 
+// new typescript interface
+import { preloadMedia, transitionCMD } from "./transitionInterface.js";
+
 const { invoke } = window.__TAURI__.core;
 const { convertFileSrc } = window.__TAURI__.core;
 const { open } = window.__TAURI__.dialog;
@@ -8,11 +11,7 @@ const { emit } = window.__TAURI__.event;
 
 export async function sendMedia(path, is_color, element) {
   if (is_color) {
-    await emit("preload_media", {
-      url: path, // color
-      isVideo: false,
-      isColor: true,
-    });
+    preloadMedia(element, false, true, false, path); //isVideo, isColor, isLooped
     return;
   }
 
@@ -26,16 +25,10 @@ export async function sendMedia(path, is_color, element) {
 
   if (isVideo) {
     isLooped = element.parentElement.isLooped;
-    console.log("Main isLooped: " + isLooped);
   }
 
   const assetUrl = convertFileSrc(path);
-  await emit("preload_media", {
-    url: assetUrl,
-    isVideo: isVideo,
-    isColor: false,
-    isLooped: isLooped,
-  });
+  preloadMedia(element, isVideo, false, isLooped, assetUrl); // isVideo, isColor, isLooped
 }
 
 function isEditSelected(element) {
@@ -137,10 +130,10 @@ export async function handleMediaClick(event, srcName) {
       markPlaying(element);
       // trigger element playing
       if (transitionToggle) {
-        emit("trigger_swap");
+        transitionCMD(element.parentElement.src, 2000, true, element.parentElement.isLooped); // src, transitionDuration, transition, isLooped
         return;
       } else {
-        emit("trigger_swap_cut");
+        transitionCMD(element.parentElement.src, 2000, false, element.parentElement.isLooped); // src, transitionDuration, transition, isLooped
         return;
       }
     }
@@ -178,10 +171,10 @@ export function handleColorClick(event, color) {
       markPlaying(element);
       // trigger element playing
       if (transitionToggle) {
-        emit("trigger_swap");
+        transitionCMD(element.parentElement.src, 2000, true, element.parentElement.isLooped); // src, transitionDuration, transition, isLooped
         return;
       } else {
-        emit("trigger_swap_cut");
+        transitionCMD(element.parentElement.src, 2000, false, element.isLooped); // src, transitionDuration, transition, isLooped
         return;
       }
     }
@@ -258,10 +251,10 @@ export function playingElement(element) {
 
   // trigger element playing
   if (transitionToggle) {
-    emit("trigger_swap");
+    transitionCMD(element.parentElement.src, 2000, true, element.parentElement.isLooped); // src, transitionDuration, transition, isLooped
     return;
   } else {
-    emit("trigger_swap_cut");
+    transitionCMD(element.parentElement.src, 2000, false, element.parentElement.isLooped); // src, transitionDuration, transition, isLooped
     return;
   }
 }
