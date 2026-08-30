@@ -6,7 +6,8 @@
   "scripts": {
     "tauri": "tauri",
     "dev": "npx tsc && tauri dev",
-    "version": "node update-version.js && git add ."
+    "version": "node update-version.js && git add .",
+    "get-version": "node get-version.js"
   },
   "devDependencies": {
     "@tauri-apps/cli": "^2",
