@@ -53,7 +53,6 @@
       "icons/icon.ico"
     ],
     "windows": {
-      "appGUID": "e2a3b1c4-5d6e-7f8a-9b0c-1d2e3f4a5b6c",
       "nsis": {
         "installerHooks": "build/hooks.nsh"
       }
