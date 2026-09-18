@@ -29,11 +29,6 @@ listen("transitionCMD", (event: { payload: { element: HTMLElement, transitionDur
 function transitionCMD(payload: { element: HTMLElement, transitionDuration: number, transition: boolean, isLooped: boolean }) {
     let tempTransitionDuration: number = 500; // duration in ms //Todo update transitionDuration!
 
-    // if (currentElement == payload.element) {
-    //     console.log("Dublicate -> return!");
-    //     return;
-    // }
-
     currentElement = payload.element; // allowing backtracing and identification
 
     // temporary: only main transition with fixed 500ms duration
