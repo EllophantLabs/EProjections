@@ -1,5 +1,4 @@
 import { transitionToggle, editToggle } from "./script.js";
-import { cue } from "../SecWindow/script.js";
 
 // new typescript interface
 import { preloadMedia, transitionCMD } from "./transitionInterface.js";

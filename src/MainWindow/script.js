@@ -3,8 +3,6 @@ const { convertFileSrc } = window.__TAURI__.core;
 const { open } = window.__TAURI__.dialog;
 const { emit } = window.__TAURI__.event;
 
-import { cue } from "../SecWindow/script.js";
-
 import {
   addGridTemplates,
   addMoveTemplate,
