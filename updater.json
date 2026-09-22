@@ -1,15 +1,15 @@
 {
-  "version": "1.1.8",
+  "version": "1.1.9",
   "notes": "Und ein weiteres Update... :)",
   "pub_date": "2026-04-28T12:37:00Z",
   "platforms": {
     "windows-x86_64": {
       "signature": "dW50cnVzdGVkIGNvbW1lbnQ6IHNpZ25hdHVyZSBmcm9tIHRhdXJpIHNlY3JldCBrZXkKUlVUb2YvSVo1cTA2Ynk4UVdZeGRKSm5BUGtrOW8vRml0NWhWR2M1aE5wMkpqeWFkY2RXVjZTNTlxL3h6NGNKT2F0a0wwNy9kbDJmS1k0RmltMGsveXJ6QUdYdzlKSFdhQXdNPQp0cnVzdGVkIGNvbW1lbnQ6IHRpbWVzdGFtcDoxNzkwMDc0MzgxCWZpbGU6U2NyZWVuLUVsbG9waGFudF8xLjEuOF94NjRfZW4tVVMubXNpCmdtdW5nbEpwSDBrcG5zMnFqNW9TNjhRQ2pjbjhNdUF6d2hVRzdOcFkrcktMMHgzQ2JBbjYzbHlIVmQwaCtpa21Mc3lLanZxaVkrYVQrTnEwRVVnRkJnPT0K",
-      "url": "https://github.com/EllophantLabs/EProjections/releases/download/v1.1.8/Screen-Ellophant_1.1.8_x64_en-US.msi"
+      "url": "https://github.com/EllophantLabs/EProjections/releases/download/v1.1.9/Screen-Ellophant_1.1.9_x64_en-US.msi"
     },
     "linux-x86_64": {
       "signature": "dW50cnVzdGVkIGNvbW1lbnQ6IHNpZ25hdHVyZSBmcm9tIHRhdXJpIHNlY3JldCBrZXkKUlVUb2YvSVo1cTA2Ynp2cE9oaXU2L3B2WHM3bVdOY3dUblhBbW5aTWd2cXVhQzlSOElRT0cxNkpQMFl1dktjcjl1VGpGaGxDYkQ2aDZDcTBtRjNrdW4yVS9ncmlYNS8zRmd3PQp0cnVzdGVkIGNvbW1lbnQ6IHRpbWVzdGFtcDoxNzkwMDc0Mjc5CWZpbGU6U2NyZWVuLUVsbG9waGFudF8xLjEuOF9hbWQ2NC5BcHBJbWFnZQpORW9mYkxvUzdEMnZSY0RWWnNnOEk2NjdMdXhiVlRHenRnMlA4R2xkblZSTzRMcGFPZkl1bCtCdy8zMjRmLzZGOE01M3FSSGFmNXBpajMvdU5BbGJDdz09Cg",
-      "url": "https://github.com/EllophantLabs/EProjections/releases/download/v1.1.8/Screen-Ellophant_1.1.8_amd64.AppImage.tar.gz"
+      "url": "https://github.com/EllophantLabs/EProjections/releases/download/v1.1.9/Screen-Ellophant_1.1.9_amd64.AppImage.tar.gz"
     }
   }
 }
