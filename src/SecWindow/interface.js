@@ -19,10 +19,6 @@ listen("transitionCMD", (event) => {
 });
 function transitionCMD(payload) {
     let tempTransitionDuration = 500; // duration in ms //Todo update transitionDuration!
-    // if (currentElement == payload.element) {
-    //     console.log("Dublicate -> return!");
-    //     return;
-    // }
     currentElement = payload.element; // allowing backtracing and identification
     // temporary: only main transition with fixed 500ms duration
     if (!isMainTransition) {
