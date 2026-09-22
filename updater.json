@@ -4,11 +4,11 @@
   "pub_date": "2026-04-28T12:37:00Z",
   "platforms": {
     "windows-x86_64": {
-      "signature": "dW50cnVzdGVkIGNvbW1lbnQ6IHNpZ25hdHVyZSBmcm9tIHRhdXJpIHNlY3JldCBrZXkKUlVUb2YvSVo1cTA2YjBoa2wrZTRXNFJSeTFjc3BVTFdaSG9BK1l2cXY3ck5VajJBVzgzSVBDaVJPZFZ0dGpnTm5XNnhCSzJJTWFEbXRPYVdmQ3FzK25CR04rdVRPZmY2VEFrPQp0cnVzdGVkIGNvbW1lbnQ6IHRpbWVzdGFtcDoxNzg5MDM1OTExCWZpbGU6U2NyZWVuLUVsbG9waGFudF8xLjEuM194NjRfZW4tVVMubXNpClB0MnFXWGk0aitMczJZU0IvWWE3aUtWK2xCTnMrWWJvR0I4dWJOTmxVM0hBaFJIVDRLZzBURGpwMGRXSE92MTVuZkFSSXkyMnY5QUplK3ZiTTNZQkJRPT0K",
+      "signature": "dW50cnVzdGVkIGNvbW1lbnQ6IHNpZ25hdHVyZSBmcm9tIHRhdXJpIHNlY3JldCBrZXkKUlVUb2YvSVo1cTA2Ynk4UVdZeGRKSm5BUGtrOW8vRml0NWhWR2M1aE5wMkpqeWFkY2RXVjZTNTlxL3h6NGNKT2F0a0wwNy9kbDJmS1k0RmltMGsveXJ6QUdYdzlKSFdhQXdNPQp0cnVzdGVkIGNvbW1lbnQ6IHRpbWVzdGFtcDoxNzkwMDc0MzgxCWZpbGU6U2NyZWVuLUVsbG9waGFudF8xLjEuOF94NjRfZW4tVVMubXNpCmdtdW5nbEpwSDBrcG5zMnFqNW9TNjhRQ2pjbjhNdUF6d2hVRzdOcFkrcktMMHgzQ2JBbjYzbHlIVmQwaCtpa21Mc3lLanZxaVkrYVQrTnEwRVVnRkJnPT0K",
       "url": "https://github.com/EllophantLabs/EProjections/releases/download/v1.1.8/Screen-Ellophant_1.1.8_x64_en-US.msi"
     },
     "linux-x86_64": {
-      "signature": "<HIER_DEINE_LINUX_SIGNATUR_EINTRAGEN>",
+      "signature": "dW50cnVzdGVkIGNvbW1lbnQ6IHNpZ25hdHVyZSBmcm9tIHRhdXJpIHNlY3JldCBrZXkKUlVUb2YvSVo1cTA2Ynp2cE9oaXU2L3B2WHM3bVdOY3dUblhBbW5aTWd2cXVhQzlSOElRT0cxNkpQMFl1dktjcjl1VGpGaGxDYkQ2aDZDcTBtRjNrdW4yVS9ncmlYNS8zRmd3PQp0cnVzdGVkIGNvbW1lbnQ6IHRpbWVzdGFtcDoxNzkwMDc0Mjc5CWZpbGU6U2NyZWVuLUVsbG9waGFudF8xLjEuOF9hbWQ2NC5BcHBJbWFnZQpORW9mYkxvUzdEMnZSY0RWWnNnOEk2NjdMdXhiVlRHenRnMlA4R2xkblZSTzRMcGFPZkl1bCtCdy8zMjRmLzZGOE01M3FSSGFmNXBpajMvdU5BbGJDdz09Cg",
       "url": "https://github.com/EllophantLabs/EProjections/releases/download/v1.1.8/Screen-Ellophant_1.1.8_amd64.AppImage.tar.gz"
     }
   }
