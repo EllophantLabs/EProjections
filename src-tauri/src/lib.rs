@@ -195,6 +195,10 @@ pub fn run() {
             path: std::sync::OnceLock::new(),
         })
         .setup(|app| {
+            // print os
+            let os: String = std::env::consts::OS.to_string();
+            println!("This app is running on: [{os}] -> OS");
+
             // create async handle for update checking
             let handle = app.handle().clone();
             tauri::async_runtime::spawn(async move {
