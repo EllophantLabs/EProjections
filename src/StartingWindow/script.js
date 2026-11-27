@@ -47,6 +47,11 @@ async function create_new_project(path) {
 }
 
 window.addEventListener("DOMContentLoaded", () => {
+  // activate update checker
+  invoke("check_for_updates");
+  console.log("invoke update check from frontend to backend!");
+
+  // register eventListener for btns
   document.getElementById("closeBtn").addEventListener("click", () => {
     invoke("close_start_window");
   });

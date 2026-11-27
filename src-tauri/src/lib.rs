@@ -18,6 +18,7 @@ use crate::data_stream::ProjectDir;
 // Learn more about Tauri commands at https://tauri.app/develop/calling-rust/
 
 //* search for updates */
+#[tauri::command]
 async fn check_for_updates(handle: AppHandle, window: tauri::WebviewWindow) {
     let updater = handle.updater().expect("Updater-Plugin nicht geladen");
 
@@ -200,12 +201,12 @@ pub fn run() {
             println!("This app is running on: [{os}] -> OS");
 
             // create async handle for update checking
-            let handle = app.handle().clone();
-            tauri::async_runtime::spawn(async move {
-                if let Some(window) = handle.get_webview_window("main") {
-                    check_for_updates(handle, window).await;
-                }
-            });
+            // let handle = app.handle().clone();
+            // tauri::async_runtime::spawn(async move {
+            //     if let Some(window) = handle.get_webview_window("main") {
+            //         check_for_updates(handle, window).await;
+            //     }
+            // });
             Ok(())
         })
         .invoke_handler(tauri::generate_handler![
@@ -224,7 +225,8 @@ pub fn run() {
             show_sec_window,
             close_main_window,
             close_start_window,
-            open_project_folder
+            open_project_folder,
+            check_for_updates
         ])
         .on_window_event(|window, event| {
             if let tauri::WindowEvent::CloseRequested { .. } = event {
