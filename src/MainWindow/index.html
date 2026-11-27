@@ -13,7 +13,7 @@
       <div class="layout-container">
         <header class="top-box">
           <div id="mainBtns">
-            <button id="closeBtn" class="btns">
+            <button id="closeBtn" class="btns" title="Program beenden">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 width="24"
@@ -30,7 +30,11 @@
                 <path d="m6 6 12 12" />
               </svg>
             </button>
-            <button id="assetToggle" class="btns">
+            <button
+              id="assetToggle"
+              class="btns"
+              title="Seitenleiste ein-/ausblenden"
+            >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 width="24"
@@ -67,7 +71,11 @@
                 <path d="m16 15-3-3 3-3" />
               </svg>
             </button>
-            <button id="editToggle" class="btns">
+            <button
+              id="editToggle"
+              class="btns"
+              title="Bearbeitungsmodus ändern"
+            >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 width="24"
@@ -112,7 +120,11 @@
           </div>
 
           <div id="displayBtns" class="btn-menus">
-            <button id="launchBtn" class="setting-btns">
+            <button
+              id="launchBtn"
+              class="setting-btns"
+              title="Präsentation starten"
+            >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 width="24"
@@ -134,7 +146,11 @@
                 <path d="M17 3h5v5" />
               </svg>
             </button>
-            <button id="endBtn" class="setting-btns">
+            <button
+              id="endBtn"
+              class="setting-btns"
+              title="Präsentation beenden"
+            >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 width="24"
@@ -154,7 +170,11 @@
                 <path d="m2 2 20 20" />
               </svg>
             </button>
-            <button id="visibilityToggle" class="setting-btns">
+            <button
+              id="visibilityToggle"
+              class="setting-btns"
+              title="Präsentation verstecken/anzeigen"
+            >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 width="24"
@@ -194,7 +214,7 @@
                 <circle cx="12" cy="12" r="3" />
               </svg> -->
             </button>
-            <button id="blackoutBtn" class="setting-btns">
+            <button id="blackoutBtn" class="setting-btns" title="blackout">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 width="24"
@@ -213,7 +233,11 @@
                 <path d="m2 2 20 20" />
               </svg>
             </button>
-            <button id="transitionToggle" class="setting-btns">
+            <button
+              id="transitionToggle"
+              class="setting-btns"
+              title="Transitionmodus ändern"
+            >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 width="24"
@@ -236,7 +260,11 @@
           </div>
 
           <div id="editBtns" class="hidden-btn-menus">
-            <button id="deleteBtn" class="setting-btns">
+            <button
+              id="deleteBtn"
+              class="setting-btns"
+              title="Medien-Feld entfernen"
+            >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 width="24"
@@ -257,7 +285,11 @@
                 <path d="m9.5 12.5 5 5" />
               </svg>
             </button>
-            <button id="templateDeleteBtn" class="setting-btns">
+            <button
+              id="templateDeleteBtn"
+              class="setting-btns"
+              title="alle leere Felder entfernen"
+            >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 width="24"
@@ -280,7 +312,11 @@
                 <path d="m8 22 1-4" />
               </svg>
             </button>
-            <button id="renameBtn" class="setting-btns">
+            <button
+              id="renameBtn"
+              class="setting-btns"
+              title="Media umbenennen"
+            >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 width="24"
@@ -300,7 +336,11 @@
                 />
               </svg>
             </button>
-            <button id="templateBtn" class="setting-btns">
+            <button
+              id="templateBtn"
+              class="setting-btns"
+              title="leere Felder hinzufügen"
+            >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 width="24"
@@ -327,6 +367,7 @@
                 id="projectFolderBtn"
                 class="setting-btns"
                 style="width: 10% !important"
+                title="Projektordner öffnen"
               >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -351,6 +392,7 @@
                 id="loadBtn"
                 class="setting-btns"
                 style="width: 10% !important"
+                title="Medien laden"
               >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -372,6 +414,7 @@
                 id="colorBtn"
                 class="setting-btns"
                 style="width: 10% !important"
+                title="Farbe erstellen"
               >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -394,16 +437,14 @@
                 id="colorInput"
                 value="#6b5594"
                 class="setting-btns"
+                title="Farbe auswählen"
               />
             </div>
             <div class="grid-container" id="container-left"></div>
           </div>
 
           <div class="box half" id="box-right">
-
-            
             <div class="grid-container" id="container-right"></div>
-
 
             <div class="lower-box">
               <div id="utilityBtns" class="btn-menus"></div>
@@ -412,7 +453,8 @@
                   xmlns="http://www.w3.org/2000/svg"
                   width="24"
                   height="24"
-                  viewBox="0 0 24 24"0
+                  viewBox="0 0 24 24"
+                  0
                   fill="none"
                   stroke="currentColor"
                   stroke-width="2"
@@ -426,9 +468,8 @@
                   <path d="M11 6h6a2 2 0 0 1 2 2v10" />
                 </svg>
               </button>
-              
-              <input type="number" id="durationInput" class="setting-btns" />
 
+              <input type="number" id="durationInput" class="setting-btns" />
             </div>
           </div>
         </main>
